@@ -144,14 +144,21 @@ THE SOFTWARE.
 				window.nativeWindow.startResize(air.NativeWindowResize.BOTTOM_RIGHT);		
 				return false;
 			});
-			$("#header *").mousedown(function(){return false;});
+			//$("#header *").mousedown(function(){return false;});
 			//移动窗口
 			$("#header").mousedown(function(){
+					var startMove = false;
 					$("body").one("mouseup",function(e){
+						if (!startMove) return false;
 						air.trace("move");
 						MyUI.set_position();
 						MyUI.save_ui_data();
+						return false;
 					});				
+				//最大化的时候不允许移动。
+				if(MyUI.is_maximize)return false;
+				startMove = true;
+				$(this).css("cursor", "hand");
 				window.nativeWindow.startMove();		
 				return false;				
 			});		

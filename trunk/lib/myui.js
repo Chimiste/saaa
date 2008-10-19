@@ -100,34 +100,11 @@ THE SOFTWARE.
 			});
 			//最大化窗口
 			$("#max-btn a").click(function() {
-				//MyUI.set_position();		
-				window.nativeWindow.maximize();	
-				$("#max-btn").hide();
-				$("#restore-btn").show();
-				MyUI.is_maximize = true;
-		
-				MyUI.save_ui_data();			
-				return false;				
+				return MyUI.win_max();				
 			});
 			//还原窗口
 			$("#restore-btn a").click(function() {
-				window.nativeWindow.restore();
-
-				var w = window.nativeWindow;
-				w.x = MyUI.position.x;
-				w.y = MyUI.position.y;
-				w.width = MyUI.position.width;
-				w.height = MyUI.position.height;
-				
-					
-
-				$("#restore-btn").hide();
-				$("#max-btn").show();
-				MyUI.is_maximize = false;
-				
-				//MyUI.set_position();				
-				MyUI.save_ui_data();			
-				return false;				
+					return MyUI.win_restore();			
 			});		
 			//关闭窗口
 			$("#close-btn a").click(function() {
@@ -145,23 +122,20 @@ THE SOFTWARE.
 				return false;
 			});
 			//$("#header *").mousedown(function(){return false;});
+			$("#header").dblclick(function(){
+					air.trace("double click");
+					if (!MyUI.is_maximize)
+						MyUI.win_max();
+					else
+						MyUI.win_restore();					
+			});
 			//移动窗口
 			$("#header").mousedown(function(){
-					var startMove = false;
-					$("body").one("mouseup",function(e){
-						if (!startMove) return false;
-						air.trace("move");
-						MyUI.set_position();
-						MyUI.save_ui_data();
-						return false;
-					});				
-				//最大化的时候不允许移动。
-				if(MyUI.is_maximize)return false;
-				startMove = true;
-				$(this).css("cursor", "hand");
-				window.nativeWindow.startMove();		
-				return false;				
-			});		
+				return MyUI.win_move();
+			});	
+			$("#footer").mousedown(function(){
+				return MyUI.win_move();
+			});
 			$("#always-top-btn").click(function(){
 				window.nativeWindow.alwaysInFront = true;
 				$("#always-top-btn").hide();
@@ -183,7 +157,6 @@ THE SOFTWARE.
 
 			});		
 			add_tips_for_ctrl_btn(".toolbar li a");
-
 
 
 			install_tray();
@@ -224,6 +197,54 @@ THE SOFTWARE.
 			$("#layout").fadeIn();
 			
 		},
+		win_move : function()
+		{
+			var startMove = false;
+			$("body").one("mouseup",function(e){
+				if (!startMove) return false;
+				air.trace("move");
+				MyUI.set_position();
+				MyUI.save_ui_data();
+				return false;
+			});				
+			//最大化的时候不允许移动。
+			if(MyUI.is_maximize)return false;
+			startMove = true;
+			//$(this).css("cursor", "hand pointer");
+			window.nativeWindow.startMove();		
+			return false;							
+		},
+			win_max : function()
+			{
+				//MyUI.set_position();		
+				window.nativeWindow.maximize();	
+				$("#max-btn").hide();
+				$("#restore-btn").show();
+				MyUI.is_maximize = true;
+		
+				MyUI.save_ui_data();			
+				return false;				
+			},
+			win_restore : function()
+			{
+				window.nativeWindow.restore();
+
+				var w = window.nativeWindow;
+				w.x = MyUI.position.x;
+				w.y = MyUI.position.y;
+				w.width = MyUI.position.width;
+				w.height = MyUI.position.height;
+				
+					
+
+				$("#restore-btn").hide();
+				$("#max-btn").show();
+				MyUI.is_maximize = false;
+				
+				//MyUI.set_position();				
+				MyUI.save_ui_data();			
+				return false;					
+			},		
 		file : {
 			write : function(fname,obj) {
 				if(!air) return;

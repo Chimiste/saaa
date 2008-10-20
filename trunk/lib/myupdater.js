@@ -1,10 +1,10 @@
 var myupdater = {
 	versionCheckURL : null,
 	filename : null, // nn.air
-	updateOrNotHandler : null,
+	needUpdateOrNotHandler : null,
 	errorHandler : null,
 	updateOkHandler : null,
-    completeHanlder : null,
+    updateCompleteHanlder : null,
 	updateProcessHandler : null, //params: percentage
 	lastestVersionInfo : {},//releasenodes,version
 	currentVersionInfo : {},//name, version
@@ -37,27 +37,27 @@ var myupdater = {
 				myupdater.updateURL  = xmlobject.getElementsByTagName("downloadurl")[0].childNodes[0].data;				
 				air.trace("lastest application version:" + myupdater.lastestVersionInfo.version);
 				
-				if (myupdater.needUpdate())
-				{
-					air.trace("need update");
-					if (myupdater.updateOrNotHandler != null)
-					{
-						if (myupdater.updateOrNotHandler())
-						{//user confirmed
-							myupdater.doUpdate();
-						}else
-						{
-							if (myupdater.completeHandler)myupdater.completeHandler();
-						}
+				//if (myupdater.needUpdate())
+				//{
+					//air.trace("need update");
+					if (myupdater.needUpdateOrNotHandler != null) myupdater.needUpdateOrNotHandler(myupdater.needUpdate());
+					//{
+					//	if (myupdater.updateOrNotHandler())
+					//	{//user confirmed
+					//		myupdater.doUpdate();
+					//	}else
+					//	{
+					//		if (myupdater.completeHandler)myupdater.completeHandler();
+					//	}
 						
-					}else
-					{
-						myupdater.doUpdate();
-					}
-				}else{
-					air.trace("not need update");
-					if (myupdater.completeHandler)myupdater.completeHandler();
-				}	
+					//}else
+					//{
+					//	myupdater.doUpdate();
+					//}
+				//}else{
+				//	air.trace("not need update");
+				//	if (myupdater.completeHandler)myupdater.completeHandler();
+				//}	
 				
 			});
 		}catch(e)
@@ -91,7 +91,7 @@ var myupdater = {
 				updater.update(updateFile, myupdater.lastestVersionInfo.version);
 				
 				if (myupdater.updateOkHandler != null) myupdater.updateOkHandler();
-				if (myupdater.completeHandler)myupdater.completeHandler();				
+				if (myupdater.updateCompleteHandler)myupdater.updateCompleteHandler();				
 			};			
 			stream = new air.URLStream();		
 			stream.addEventListener(air.ProgressEvent.PROGRESS, updatingStatus);		

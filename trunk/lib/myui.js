@@ -159,9 +159,9 @@ THE SOFTWARE.
 			add_tips_for_ctrl_btn(".toolbar li a");
 
 
-			install_tray();
-			
-			MyUI.set_theme(MyUI.theme);			
+			install_tray();			
+			MyUI.set_theme(MyUI.theme);		
+			MyUI.update();
 		},
 		configureForOS: function(){
 			switch (MyUI.os) {
@@ -261,7 +261,36 @@ THE SOFTWARE.
 				file.close();
 				return obj;
 			}
-		}	
+		},
+		//更新操作
+		update : function()
+		{
+			myupdater.versionCheckURL = "http://saaa.googlecode.com/files/versioning.xml";
+			myupdater.filename = "saaa.air";			
+			myupdater.check();																
+			myupdater.needUpdateOrNotHandler = function(needUpdate)
+			{
+				if(needUpdate)
+					$("#update .content").html("不是最新版本");
+				else
+					$("#update .content").html("已经是最新版本了");
+			};
+			myupdater.updateProcessHandler = function(percentage)
+			{
+				air.trace(percentage);
+			};
+			myupdater.updateOkHandler = function()
+			{
+				air.trace("hoh, update ok");
+			};
+			myupdater.errorHandler = function(e)
+			{
+				air.trace("oho, update error," + e);
+			};
+			myupdater.updateCompleteHandler = function(){
+				air.trace("hoh, complete");
+			};			
+		}
 	}
 
 function add_tips_for_ctrl_btn(div_target, tip_div)

@@ -48,12 +48,15 @@ THE SOFTWARE.
 			MyUI.application_name = xmlobject.getElementsByTagName("name")[0].childNodes[0].data;
 			MyUI.application_version = xmlobject.getElementsByTagName("version")[0].childNodes[0].data;
 			var pos;
-			try{ 
-				pos = MyUI.file.read(MyUI.DATA_FILE + "." + MyUI.win_id);
-			}catch(e)
-			{
-				//alert(e);
+			if (!MyUI.stateless){
+				try{ 
+					pos = MyUI.file.read(MyUI.DATA_FILE + "." + MyUI.win_id);
+				}catch(e)
+				{
+					//alert(e);
+				}
 			}
+			
 			var w = window.nativeWindow;
 			if(pos) {
 				
@@ -276,14 +279,14 @@ THE SOFTWARE.
 		load_sandbox:function (container, url)
 		{
 			var html = '<div id="mysandbox" class="sandbox" style="display:none;">' +
-						'<iframe   height="100%" width="100%"></iframe>' +
+			'<iframe   height="100%" width="100%"  sandboxRoot="http://localhost/" documentRoot="app:/"></iframe>' +
 						'</div>';
 			container.html(html);
 			
 			$("#mysandbox iframe").attr("src", url);
 
 			$("#mysandbox iframe").one("load", function(){
-						$("#mysandbox").myslide( {'container': container, direction: 'left', 'easing': "linear", 'duration': 'normal'});//,  'callback': function(){ $(this).effect("bounce", { distance:80, times: 3,direction: 'right' }, 300 ) } });						
+						$("#mysandbox").myslide( {'container': container, queue:false, direction: 'left', 'easing': "linear", 'duration': '500'});//,  'callback': function(){ $(this).effect("bounce", {  times: 3,direction: 'right' }, 300 ) } });						
 					
 			});			
 		},

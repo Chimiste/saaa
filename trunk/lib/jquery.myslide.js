@@ -39,6 +39,9 @@ THE SOFTWARE.
 				$this = $(this);
 				var o = $.meta ? $.extend({}, opts, $this.data()) : opts;			
 				$(this).hide();
+				
+				//$(this).hide("explode", { pieces: 25 }, 1000);
+
 				$(this).show();
 
 				switch(o.direction)

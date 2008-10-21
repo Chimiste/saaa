@@ -29,7 +29,9 @@ body{cursor:defaulte; margin:0; padding:0;width:100%; height:100%;}
 #layout .element{right:0px;left:0px;position:absolute;}		
 #layout #header  {height:60px;top:0px;}
 #layout #footer {height:25px;bottom:0px;}
-#layout #content {-moz-border-radius: 5px;-webkit-border-radius: 5px;padding: 10px;top:60px;bottom:25px;overflow:auto;}
+#layout #content {-moz-border-radius: 2px;-webkit-border-radius: 2px;padding: 0px;top:60px;bottom:25px;overflow:auto;}
+#layout #content .sandbox{left:0px;right:0px;top:0px;bottom:0px;position:absolute;}
+#layout #content .sandbox iframe{heigth:100%;width:100%;}
 #layout #header .logo {font-size:18px;font-weight:bold;}
 #layout #header .toolbar{position:absolute; right:0px;top:0px; margin:4px 0 0 0;padding:0px;z-index:999;}
 #layout #header .toolbar li{float:left;list-style-type:none;margin-right:4px;}
@@ -41,9 +43,16 @@ body{cursor:defaulte; margin:0; padding:0;width:100%; height:100%;}
 #layout #header .toolbar li#always-top-btn{}
 #layout #header .toolbar li#disable-always-top-btn{}
 #layout #header .toolbar li#tray-btn{}
-#layout #resize-btn {position:absolute;bottom:0px;right:0px;z-index:999;}
+#layout #resize-btn {position:absolute;bottom:0px;right:0px;}
 #layout #resize-btn a{cursor:hand; color:darkgreen;text-decoration:none;}
-#layout #btn-tooltip{position:absolute; right:10px; top:42px; z-index:9999;}
+#layout #btn-tooltip{position:absolute; right:10px; top:42px;z-index:999;}
+#layout #menu{margin:20px 0 0px 2px;padding:0px;}
+#layout #menu li{float:left;list-style-type:none;margin-right:1px;}
+#layout #menu li a {-moz-border-radius: 1px;-webkit-border-radius: 1px; text-decoration:none;text-align:center;padding:2px 6px 2px 6px;overflow:hidden;}
+#layout #menu li a {background:#ececec;color:#222;}
+#layout #menu li a:hover {background:#fff;}
+#layout #menu li a .selected{background:red;}
+
 
 /** 默认的蓝色主题 **/
 #layout.default-theme {background-color: #7abaf2;border: 4px solid #7abaf2;}

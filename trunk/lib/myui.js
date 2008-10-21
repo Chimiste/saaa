@@ -26,14 +26,18 @@ THE SOFTWARE.
 	var MyUI = 
 	{
 		DATA_FILE : 'my-ui.txt',
+		win_id: null,
+		stateless: false,
+		update_check: false,		
 		application_name : "",
 		application_vertion : "",
 		theme : 'default',
 		is_maximize : false,
-		update : null,
 		os : "win-os",
 		position : {},
-		init : function() {
+		init : function(win_id) {
+			MyUI.win_id = win_id;
+
 			if (air.NativeApplication.supportsSystemTrayIcon) {
 				MyUI.os = "win-os";
 			}else	if (air.NativeApplication.supportsDockIcon) {
@@ -45,7 +49,7 @@ THE SOFTWARE.
 			MyUI.application_version = xmlobject.getElementsByTagName("version")[0].childNodes[0].data;
 			var pos;
 			try{ 
-				pos = MyUI.file.read(MyUI.DATA_FILE);
+				pos = MyUI.file.read(MyUI.DATA_FILE + "." + MyUI.win_id);
 			}catch(e)
 			{
 				//alert(e);
@@ -122,6 +126,7 @@ THE SOFTWARE.
 				return false;
 			});
 			//$("#header *").mousedown(function(){return false;});
+			$("#header a").dblclick(function(){return false;});
 			$("#header").dblclick(function(){
 					air.trace("double click");
 					if (!MyUI.is_maximize)
@@ -129,10 +134,12 @@ THE SOFTWARE.
 					else
 						MyUI.win_restore();					
 			});
+			
 			//移动窗口
 			$("#header").mousedown(function(){
 				return MyUI.win_move();
-			});	
+			});
+			$("#header a").mousedown(function(){return false;});			
 			$("#footer").mousedown(function(){
 				return MyUI.win_move();
 			});
@@ -160,8 +167,9 @@ THE SOFTWARE.
 
 
 			install_tray();			
-			MyUI.set_theme(MyUI.theme);		
-			MyUI.update();
+			MyUI.set_theme(MyUI.theme);
+			if (MyUI.update_check)
+				MyUI.update();
 		},
 		configureForOS: function(){
 			switch (MyUI.os) {
@@ -175,9 +183,10 @@ THE SOFTWARE.
 		},		
 		save_ui_data : function()
 		{
+			if (MyUI.stateless) return;
 			var w = window.nativeWindow;
 			var p = MyUI.position;
-			MyUI.file.write(MyUI.DATA_FILE,{x:p.x, y: p.y, width: p.width, height: p.height, is_maximize: MyUI.is_maximize, is_always_top: w.alwaysInFront, theme: MyUI.theme});				
+			MyUI.file.write(MyUI.DATA_FILE + "." + MyUI.win_id,{x:p.x, y: p.y, width: p.width, height: p.height, is_maximize: MyUI.is_maximize, is_always_top: w.alwaysInFront, theme: MyUI.theme});				
 		},	
 		set_position : function()
 		{
@@ -194,7 +203,9 @@ THE SOFTWARE.
 			MyUI.theme = theme;
 			//$("#layout").hide();
 			$("#layout").attr("class", theme + "-theme");
+			MyUI.save_ui_data();			
 			$("#layout").fadeIn();
+			
 			
 		},
 		win_move : function()
@@ -261,6 +272,20 @@ THE SOFTWARE.
 				file.close();
 				return obj;
 			}
+		},
+		load_sandbox:function (container, url)
+		{
+			var html = '<div id="mysandbox" class="sandbox" style="display:none;">' +
+						'<iframe   height="100%" width="100%"></iframe>' +
+						'</div>';
+			container.html(html);
+			
+			$("#mysandbox iframe").attr("src", url);
+
+			$("#mysandbox iframe").one("load", function(){
+						$("#mysandbox").myslide( {'container': container, direction: 'left', 'easing': "linear", 'duration': 'normal'});//,  'callback': function(){ $(this).effect("bounce", { distance:80, times: 3,direction: 'right' }, 300 ) } });						
+					
+			});			
 		},
 		//更新操作
 		update : function()

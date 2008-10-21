@@ -49,7 +49,7 @@ THE SOFTWARE.
 						break;			
 					case "left":
 						$(this).css("left",  o.container.width() + "px");
-						o.params.top = "-=" + o.container.width();
+						o.params.left = "-=" + o.container.width();
 						break;
 					case "bottom":
 						$(this).css("top",  0 - o.container.height() + "px");

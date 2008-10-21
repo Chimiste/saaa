@@ -27,23 +27,33 @@ THE SOFTWARE.
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-	<link href="styles/theme.css" rel="stylesheet" type="text/css" /> 
+	<link href="styles/theme.css" rel="stylesheet" type="text/css" />
+	<link href="styles/boxy.css" rel="stylesheet" type="text/css" />
 	<title>StartKit for Adobe Air Applications</title>
 	<script type="text/javascript" src="lib/AIRAliases.js" charset="utf-8"></script>
-	<script type="text/javascript" src="lib/jquery.js" charset="utf-8"></script>
-	<script type="text/javascript" src="lib/jquery.mytips.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery-1.2.6.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.ui.all.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.dimensions.pack.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.blockUI.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="lib/myupdater.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="lib/myutil.js" charset="utf-8"></script>	
 	<script type="text/javascript" src="lib/myui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.mytips.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.myslide.js" charset="utf-8"></script>	
  
 	<script>
-	$(document).ready(function() {
-		MyUI.init();
-	});	
-
+		$(document).ready(function() {
+			MyUI.stateless = false;
+			MyUI.init("root_win");
+		});
 	</script>
 </head>
+<style>
 
-<body>aa
-	<div id="layout" class="default-theme">
+
+</style>
+<body> 
+	<div id="layout" class="default-theme">				
 		<div id="header" class="element">		 
 			<div class="logo">标题栏</div>
 			<ul class="toolbar">
@@ -61,10 +71,19 @@ THE SOFTWARE.
 				<li id="close-btn"><a href="#" rel="close" title="关闭">x</a></li>
 			</ul>
 			<div id="btn-tooltip"></div>
+			<ul id="menu">
+				<li><a id="menu-item-baidu" href="#" onclick="MyUI.load_sandbox($('#content'),'http://www.google.com');" class="selected">sandbox</a></li>
+				
+			</ul>
+			
 		</div>
-		<div id="content" class="element" >	内容
+		<div id="content" class="element"  style="overflow:hidden;">
+
 		</div>
 		<div id="footer"  class="element" >状态<div id="resize-btn"><a href="#">⊿</a></div></div>
-	</div>	
+	
+	</div>
+	
+	
 </body>
 </html>

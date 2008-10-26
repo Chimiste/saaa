@@ -34,7 +34,7 @@ body{cursor:defaulte; margin:0; padding:0;width:100%; height:100%;}
 #layout #content .sandbox iframe{heigth:100%;width:100%;}
 #layout #header .logo {font-size:18px;font-weight:bold;}
 #layout #header .toolbar{position:absolute; right:0px;top:0px; margin:4px 0 0 0;padding:0px;z-index:999;}
-#layout #header .toolbar li{float:left;list-style-type:none;margin-right:4px;}
+#layout #header .toolbar li{float:left;list-style-type:none;margin-right:4px;display:none;}
 #layout #header .toolbar li a { font-size:12px;-moz-border-radius: 7px;-webkit-border-radius: 7px; float:left;text-decoration:none;width:14px;height:14px;text-align:center;padding-bottom:2px;overflow:hidden;}
 #layout #header .toolbar li#close-btn{;}
 #layout #header .toolbar li#min-btn{}
@@ -53,6 +53,11 @@ body{cursor:defaulte; margin:0; padding:0;width:100%; height:100%;}
 #layout #menu li a:hover {background:#fff;}
 #layout #menu li a .selected{background:red;}
 
+#layout[win="notifybox"] {-moz-border-radius: 5px;-webkit-border-radius: 4px;padding:6px;opacity:0.9;}
+#layout[win="notifybox"] #content {-moz-border-radius: 0px;-webkit-border-radius: 0px;padding: 0px;top:12px;bottom:0px;overflow:auto;}
+#layout[win="notifybox"] #header  {height:12px;top:0px;overflow:hidden;}
+#layout[win="notifybox"] #header .toolbar{position:absolute; right:0px;top:-4px; margin:1px 0 0 0;padding:0px;}
+#layout[win="notifybox"] #header .toolbar li a { font-size:12px;-webkit-border-radius: 0px; float:left;text-decoration:none;width:12px;height:12px;text-align:center;overflow:hidden;}
 
 /** 默认的蓝色主题 **/
 #layout.default-theme {background-color: #7abaf2;border: 4px solid #7abaf2;}

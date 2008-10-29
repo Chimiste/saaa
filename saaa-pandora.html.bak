@@ -29,39 +29,58 @@ THE SOFTWARE.
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<link href="styles/theme.css" rel="stylesheet" type="text/css" />
 	<link href="styles/boxy.css" rel="stylesheet" type="text/css" />
-	<title>StartKit for Adobe Air Applications</title>
+	<title>Pandora Client</title>
 	<script type="text/javascript" src="lib/AIRAliases.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/AIRIntrospector.js"></script>
 	<script type="text/javascript" src="lib/jquery-1.2.6.js" charset="utf-8"></script>
 	<script type="text/javascript" src="lib/jquery.ui.all.js" charset="utf-8"></script>
 	<script type="text/javascript" src="lib/jquery.dimensions.pack.js" charset="utf-8"></script>
 	<script type="text/javascript" src="lib/jquery.blockUI.js" charset="utf-8"></script>	
-	<script type="text/javascript" src="lib/myupdater.js" charset="utf-8"></script>	
-	<script type="text/javascript" src="lib/myutil.js" charset="utf-8"></script>	
-	<script type="text/javascript" src="lib/myui.js" charset="utf-8"></script>
 	<script type="text/javascript" src="lib/jquery.mytips.js" charset="utf-8"></script>
-	<script type="text/javascript" src="lib/jquery.myslide.js" charset="utf-8"></script>	
- 
+	<script type="text/javascript" src="lib/jquery.myslide.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/saaa.util.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/saaa.win.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="lib/saaa.updater.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="lib/saaa.notifier.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/saaa.js" charset="utf-8"></script>	
+<!--	<script type="application/x-shockwave-flash" src="https://www.pandora.com/radio/tuner_8_6_0_0_pandora.swf" ></script>-->
 	<script>
 		$(document).ready(function() {
-			MyUI.stateless = false;
-			MyUI.init("root_win");
+			saaa.init_main_win();			
+			
+load_sandbox($("#content"), "http://www.pandora.com/?cmd=mini"); 
+
 		});
+		
+		function load_sandbox(container, url)
+		{
+			var html = '<div id="mysandbox" class="sandbox"  height="100%" width="100%" style="display:none;">' +
+			'<iframe   height="528" width="640"  sandboxRoot="http://localhost/" documentRoot="app:/"></iframe>' +
+						'</div>';
+			container.html(html);
+			
+			$("#mysandbox iframe").attr("src", url);
+
+			$("#mysandbox iframe").one("load", function(){
+						$("#mysandbox").myslide( {'container': container, queue:false, direction: 'left', 'easing': "linear", 'duration': '500'});//,  'callback': function(){ $(this).effect("bounce", {  times: 3,direction: 'right' }, 300 ) } });						
+					
+			});			
+		}
 	</script>
 </head>
 <style>
-
+#mysandbox iframe{position:absolute;top:-93px;left:-46px;}
 
 </style>
 <body> 
 	<div id="layout" class="default-theme">				
-		<div id="header" class="element">		 
+		<div id="header" class="element movable">		 
 			<div class="logo">标题栏</div>
 			<ul class="toolbar">
-				<li><a class="change-theme" href="#" style="color:#7abaf2" title="默认主题" theme="default">■</a></li>
-				<li><a class="change-theme" href="#" style="color:#c33a12" title="红色主题" theme="red">■</a></li>
-				<li><a class="change-theme" href="#" style="color:#cfcfcf" title="灰色主题" theme="grey">■</a></li>
-				<li><a class="change-theme" href="#" style="color:#e8c258" title="多彩主题" theme="colorful">■</a></li>
-
+				<li class="change-theme-btn" theme="default"><a href="#" style="color:#7abaf2" title="默认主题" >■</a></li>
+				<li class="change-theme-btn" theme="red"><a href="#" style="color:#c33a12" title="红色主题" >■</a></li>
+				<li class="change-theme-btn" theme="grey"><a href="#" style="color:#cfcfcf" title="灰色主题" >■</a></li>
+				<li class="change-theme-btn" theme="colorful"><a href="#" style="color:#e8c258" title="多彩主题" >■</a></li>
 				<li id="disable-always-top-btn"><a href="#" rel="disable-always-top" title="取消窗口总是在最前面">¤</a></li>
 				<li id="always-top-btn"><a href="#" rel="always-top" title="窗口总是在最前面">●</a></li>
 				<li id="tray-btn"><a href="#" rel="tray" title="最小化到托盘">⊥</a></li>
@@ -72,16 +91,16 @@ THE SOFTWARE.
 			</ul>
 			<div id="btn-tooltip"></div>
 			<ul id="menu">
-				<li><a id="menu-item-baidu" href="#" onclick="MyUI.load_sandbox($('#content'),'http://www.google.com');" class="selected">sandbox</a></li>
+				<li><a id="menu-item-notifybox" href="#" class="selected">notifybox</a></li>				
 				
 			</ul>
 			
 		</div>
-		<div id="content" class="element"  style="overflow:hidden;">
+		<div id="content" class="element"  style="width:600px;overflow:hidden;">
+		 
 
 		</div>
-		<div id="footer"  class="element" >状态<div id="resize-btn"><a href="#">⊿</a></div></div>
-	
+		<div id="footer"  class="element movable" >状态<div id="resize-btn" direction="bottom_right"><a href="#">⊿</a></div></div>	
 	</div>
 	
 	

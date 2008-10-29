@@ -1,0 +1,2 @@
+adt -certificate -cn dorami 2048-RSA dist/dorami.pfx 77261
+adt -package -storetype pkcs12 -keystore dist/dorami.pfx -storepass 77261  dist/dorami.air application.xml  dorami.html lib/* styles/* icons/* images/*

@@ -1,19 +1,19 @@
-var saaa_updater = function(versionCheckURL, filename, updateURL)
+var saaa_updater = function(version_check_url, filename)
 {
-	this.versionCheckURL = versionCheckURL;
+	this.version_check_url = version_check_url;
+	this._update_url = null;
 	this.filename = filename; // nn.air
-	this.updateURL = updateURL;
-	this.needUpdateOrNotHandler = null;
-	this.errorHandler = null;
-	this.updateOkHandler = null;
-	this.updateProcessHandler = null; //params: percentage
+	this.need_update_or_not_handle = null;
+	this.error_handle = null;
+	this.update_ok_handle = null;
+	this.update_process_handle = null; //params: percentage
 	
-	this._lastestVersionInfo = {};//releasenodes,version
+	this.lastest_version_info = {};//releasenodes,version
 	this._currentVersionInfo = {};//name, version	
 };
-saaa_updater.prototype.needUpdate = function()
+saaa_updater.prototype.need_update = function()
 {
-	var lastestVersion = parseFloat(this._lastestVersionInfo.version);
+	var lastestVersion = parseFloat(this.lastest_version_info.version);
 	var currentVersion = parseFloat(this._currentVersionInfo.version);
 	if ( lastestVersion - currentVersion > 0.00000001) {
 		return true;
@@ -32,40 +32,36 @@ saaa_updater.prototype.check = function()
 		
 		air.trace("current application version:" + this._currentVersionInfo.version);
 		var self = this;
-		$.get(this.versionCheckURL, function(data){	
-			xmlobject = (new DOMParser()).parseFromString(data, "text/xml");
-			self._lastestVersionInfo.releasenotes = xmlobject.getElementsByTagName("releasenotes")[0].childNodes[0].data;
-			self._lastestVersionInfo.version  = xmlobject.getElementsByTagName("latestversion")[0].childNodes[0].data;
-			self._updateURL  = xmlobject.getElementsByTagName("downloadurl")[0].childNodes[0].data;				
-			air.trace("lastest application version:" + self._lastestVersionInfo.version);
-			
-			//if (myupdater.needUpdate())
-			//{
-				//air.trace("need update");
-				if (self.needUpdateOrNotHandler != null) self.needUpdateOrNotHandler(self.needUpdate());
-				//{
-				//	if (myupdater.updateOrNotHandler())
-				//	{//user confirmed
-				//		myupdater.doUpdate();
-				//	}else
-				//	{
-				//		if (myupdater.completeHandler)myupdater.completeHandler();
-				//	}
+		air.trace("checking the url:" + this.version_check_url);
+		$.ajax({
+		  type: "GET",
+		  url: this.version_check_url,
+		  dataType: "text",
+		  success:   function(data){	
+					air.trace("lastest version xml:" + data);
+					xmlobject = (new DOMParser()).parseFromString(data, "text/xml");
+					self.lastest_version_info.releasenotes = xmlobject.getElementsByTagName("releasenotes")[0].childNodes[0].data;
+					self.lastest_version_info.version  = xmlobject.getElementsByTagName("latestversion")[0].childNodes[0].data;
+					self._update_url  = xmlobject.getElementsByTagName("downloadurl")[0].childNodes[0].data;				
+					air.trace("lastest application version:" + self.lastest_version_info.version);
 					
-				//}else
-				//{
-				//	myupdater.doUpdate();
-				//}
-			//}else{
-			//	air.trace("not need update");
-			//	if (myupdater.completeHandler)myupdater.completeHandler();
-			//}	
-			
+					if (self.need_update_or_not_handle != null) self.need_update_or_not_handle(self.need_update());
+			},
+			error:function (XMLHttpRequest, textStatus, errorThrown) {
+				if (textStatus == 'error')
+				{
+					if (self.error_handle)self.error_handle("", "establishing connection with update site");
+				}
+				else
+				{
+					if (self.error_handle)self.error_handle("", "retrieving data from update site");
+				}
+			}
 		});
 	}catch(e)
 	{
 		air.trace("update error:" + e);
-		if (this.errorHandler != null) this.errorHandler(e, "");			
+		if (this.error_handle != null) this.error_handle(e, "checking for newer version");			
 	}
 };
 
@@ -73,41 +69,59 @@ saaa_updater.prototype.update = function()
 {
 	try
 	{
+		var self = this;
 		air.trace("updating...");
- 		var updatingStatus = function (e) {
-			var percentage = Math.round((e.bytesLoaded / e.bytesTotal) * 100);
-			if (this.updateProcessHandler != null) this.updateProcessHandler(percentage);
+ 		var updatingStatus = function (event) {
+			var percentage = Math.round((event.bytesLoaded / event.bytesTotal) * 100);
+			air.trace("updating:" + percentage);
+			if (self.update_process_handle != null) self.update_process_handle(percentage);
 		};
 		var updateFile = air.File.applicationStorageDirectory.resolvePath(this.filename);			
 		var updateApplication = function () {
-			var ba = new air.ByteArray();
-			stream.readBytes(ba, 0, stream.bytesAvailable);
-			fileStream = new air.FileStream();
-			fileStream.addEventListener( air.Event.CLOSE, installUpdate );
-			fileStream.openAsync(updateFile, air.FileMode.WRITE);
-			fileStream.writeBytes(ba, 0, ba.length);
-			fileStream.close();
+			try
+			{
+				var ba = new air.ByteArray();
+				stream.readBytes(ba, 0, stream.bytesAvailable);
+				fileStream = new air.FileStream();
+				fileStream.addEventListener( air.Event.CLOSE, installUpdate );
+				fileStream.openAsync(updateFile, air.FileMode.WRITE);
+				fileStream.writeBytes(ba, 0, ba.length);
+				fileStream.close();
+			}
+			catch (e)
+			{
+				air.trace(e);
+				if (self.error_handle)self.error_handle(e, "updating");
+			}
+
 		};
-		var self = this;
 		var installUpdate = function () {
-			var updater = new air.Updater();				
-			updater.update(updateFile, self._lastestVersionInfo.version);
-			
-			if (self.updateOkHandler != null) self.updateOkHandler();
-			if (self.updateCompleteHandler)self.updateCompleteHandler();				
+			try
+			{
+				var updater = new air.Updater();				
+				updater.update(updateFile, self.lastest_version_info.version);
+				
+				if (self.update_ok_handle != null) self.update_ok_handle();
+				if (self.updateCompletehandle)self.updateCompletehandle();								
+			}
+			catch (e)
+			{
+				air.trace(e);
+				if (self.error_handle)self.error_handle(e, "installing");
+			}
+
 		};			
 		stream = new air.URLStream();		
 		stream.addEventListener(air.ProgressEvent.PROGRESS, updatingStatus);		
-		stream.addEventListener(air.Event.COMPLETE, updateApplication);				
-		stream.load( new air.URLRequest(this.updateURL));
+		stream.addEventListener(air.Event.COMPLETE, updateApplication);	
+		air.trace("updating from url:" + this._update_url);
+		stream.load( new air.URLRequest(this._update_url));
 
 
 	}
 	catch(e)
 	{
 		air.trace("update failed:" + e);
-		if (this.errorHandler)this.errorHandler(e, "");
+		if (self.error_handle)self.error_handle(e, "processing update");
 	}
 };
-
-

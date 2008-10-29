@@ -389,7 +389,7 @@ air_win.prototype.attach_events = function()
 	if(btns.tray)	btns.tray.click(function(){	return self.on_tray();	});		
 
 };
-air_win.on_tray = function(){
+air_win.prototype.on_tray = function(){
 	this.win_handle.visible = false;
 	this._call_event_listeners(this.event_listeners.tray, function(fn){fn()});		
 	return false;	

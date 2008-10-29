@@ -1,0 +1,126 @@
+<!--
+
+The MIT License
+
+Copyright (c) 2008 Pickere Yee(pickerel@gmail.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<link href="styles/theme.css" rel="stylesheet" type="text/css" />
+	<link href="styles/boxy.css" rel="stylesheet" type="text/css" />
+	<title>StartKit for Adobe Air Applications</title>
+	<script type="text/javascript" src="lib/AIRAliases.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/AIRIntrospector.js"></script>
+	<script type="text/javascript" src="lib/jquery-1.2.6.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.ui.all.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.dimensions.pack.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.blockUI.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="lib/jquery.mytips.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.myslide.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/saaa.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/saaa.win.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="lib/saaa.updater.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="lib/saaa.util.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/saaa.notifer.js" charset="utf-8"></script>
+
+	<script>
+		$(document).ready(function() {
+			MyUI.stateless = false;
+			MyUI.init("root_win");
+			
+			mynotifier.margin = 1;
+			mynotifier.width = 300;
+mynotifier.height = 200;
+ mynotifier.showWindow();
+ 
+		/*myWindow = window.open("http://www.yahoo.com", "myWindow", "height=400,width=400"); 			
+			var html = new air.HTMLLoader();
+			htmlToLoad =
+			'<html>' +
+			'<body>' +
+			'<div id="content">Hello from JavaScript !</div>'+
+			'</body></html>';
+			 air.Introspector.Console.log(myWindow);
+			 
+var initOptions = new air.NativeWindowInitOptions(); 
+var bounds = new air.Rectangle(10, 10, 600, 400); 
+var html2 = air.HTMLLoader.createRootWindow(true, initOptions, true, bounds); 
+var urlReq2 = new air.URLRequest("http://www.yahoo.com"); 
+html2.load(urlReq2); 
+html2.stage.nativeWindow.activate();			 
+/*
+var initOptions = new air.NativeWindow;
+InitOptions();
+var bounds = new runtime.flash.geom.Rectangle (10, 10, 600, 400); 
+var myHtml= runtime.flash.html.HTMLLoader.createRootWindow(true, initOptions, true,bounds);
+var urlReq = new runtime.flash.net.URLRequest("http://www.google.com");
+myHtml.load(urlReq); 			
+			
+			html.width = 200;
+			html.height = 200;
+			html.loadString(htmlToLoad);
+*/			
+		});
+		
+	</script>
+</head>
+<style>
+
+
+</style>
+<body> 
+	<div id="layout" class="default-theme">				
+		<div id="header" class="element">		 
+			<div class="logo">标题栏</div>
+			<ul class="toolbar">
+				<li><a class="change-theme" href="#" style="color:#7abaf2" title="默认主题" theme="default">■</a></li>
+				<li><a class="change-theme" href="#" style="color:#c33a12" title="红色主题" theme="red">■</a></li>
+				<li><a class="change-theme" href="#" style="color:#cfcfcf" title="灰色主题" theme="grey">■</a></li>
+				<li><a class="change-theme" href="#" style="color:#e8c258" title="多彩主题" theme="colorful">■</a></li>
+
+				<li id="disable-always-top-btn"><a href="#" rel="disable-always-top" title="取消窗口总是在最前面">¤</a></li>
+				<li id="always-top-btn"><a href="#" rel="always-top" title="窗口总是在最前面">●</a></li>
+				<li id="tray-btn"><a href="#" rel="tray" title="最小化到托盘">⊥</a></li>
+				<li id="min-btn"><a href="#" rel="min" title="最小化">-</a></li>
+				<li id="max-btn"><a href="#" ref="max" title="最大化">○</a></li>
+				<li id="restore-btn"><a href="#" ref="restore" title="还原">◎</a></li>
+				<li id="close-btn"><a href="#" rel="close" title="关闭">x</a></li>
+			</ul>
+			<div id="btn-tooltip"></div>
+			<ul id="menu">
+				<li><a id="menu-item-baidu" href="#" onclick="MyUI.load_sandbox($('#content'),'http://www.google.com');" class="selected">sandbox</a></li>
+				
+			</ul>
+			
+		</div>
+		<div id="content" class="element"  style="overflow:hidden;">
+
+		</div>
+		<div id="footer"  class="element" >状态<div id="resize-btn"><a href="#">⊿</a></div></div>
+	
+	</div>
+	
+	
+</body>
+</html>

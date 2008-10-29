@@ -1,0 +1,118 @@
+<!--
+
+The MIT License
+
+Copyright (c) 2008 Pickere Yee(pickerel@gmail.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<link href="styles/theme.css" rel="stylesheet" type="text/css" />
+	<link href="styles/boxy.css" rel="stylesheet" type="text/css" />
+	<title>Pandora Client</title>
+	<script type="text/javascript" src="lib/AIRAliases.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/AIRIntrospector.js"></script>
+	<script type="text/javascript" src="lib/jquery-1.2.6.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.ui.all.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.dimensions.pack.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.blockUI.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="lib/jquery.mytips.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.myslide.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/saaa.util.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/saaa.win.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="lib/saaa.updater.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="lib/saaa.notifier.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/saaa.js" charset="utf-8"></script>	
+<!--	<script type="application/x-shockwave-flash" src="https://www.pandora.com/radio/tuner_8_6_0_0_pandora.swf" ></script>-->
+	<script>
+		$(document).ready(function() {
+			saaa.init_main_win();			
+			$("#menu-item-clean").click(function(){
+					//$("#mysandbox iframe").css("top", "-96px");
+					//$("#mysandbox iframe").css("left", "-45px");
+					$("#mysandbox iframe").animate({"left": "-=46px", "top": "-=93px"}, "slow");
+					
+					saaa.main_win.win_handle.width = saaa.main_win.win_handle.width - 84;
+					saaa.main_win.win_handle.height = saaa.main_win.win_handle.height - 114;
+					$(this).hide();					
+			});
+load_sandbox($("#content"), "http://www.pandora.com/?cmd=mini"); 
+
+		});
+		
+		function load_sandbox(container, url)
+		{
+			var html = '<div id="mysandbox" class="sandbox"    style="width:100%;height:100%;display:none;background:red;">' +
+			'<iframe   sandboxRoot="http://localhost/" documentRoot="app:/"></iframe>' +
+						'</div>';
+			container.html(html);
+			
+			$("#mysandbox iframe").attr("src", url);
+
+			$("#mysandbox iframe").one("load", function(){
+						$("#mysandbox").myslide( {'container': container, queue:false, direction: 'left', 'easing': "linear", 'duration': '500'});//,  'callback': function(){ $(this).effect("bounce", {  times: 3,direction: 'right' }, 300 ) } });						
+					
+			});			
+		}
+	</script>
+</head>
+<style>
+#mysandbox iframe{position:absolute; top:0px;margin:0px;padding:0px;width:730px;height:360px;}
+#mysandbox{border:1px #444 solid;}
+#layout{background:url(background_mini.jpg) no-repeat;}
+
+</style>
+<body> 
+	<div id="layout" class="default-theme">				
+		<div id="header" class="element movable">		 
+			<div class="logo">标题栏</div>
+			<ul class="toolbar">
+				<li class="change-theme-btn" theme="default"><a href="#" style="color:#7abaf2" title="默认主题" >■</a></li>
+				<li class="change-theme-btn" theme="red"><a href="#" style="color:#c33a12" title="红色主题" >■</a></li>
+				<li class="change-theme-btn" theme="grey"><a href="#" style="color:#cfcfcf" title="灰色主题" >■</a></li>
+				<li class="change-theme-btn" theme="colorful"><a href="#" style="color:#e8c258" title="多彩主题" >■</a></li>
+				<li id="disable-always-top-btn"><a href="#" rel="disable-always-top" title="取消窗口总是在最前面">¤</a></li>
+				<li id="always-top-btn"><a href="#" rel="always-top" title="窗口总是在最前面">●</a></li>
+				<li id="tray-btn"><a href="#" rel="tray" title="最小化到托盘">⊥</a></li>
+				<li id="min-btn"><a href="#" rel="min" title="最小化">-</a></li>
+				<li id="max-btn"><a href="#" ref="max" title="最大化">○</a></li>
+				<li id="restore-btn"><a href="#" ref="restore" title="还原">◎</a></li>
+				<li id="close-btn"><a href="#" rel="close" title="关闭">x</a></li>
+			</ul>
+			<div id="btn-tooltip"></div>
+			<ul id="menu">
+				<li><a id="menu-item-clean" href="#" class="selected">clean</a></li>				
+				
+			</ul>
+			
+		</div>
+		<div id="content" class="element"  style="overflow:hidden;">
+		 
+
+		</div>
+		<div id="footer"  class="element movable" >状态<div id="resize-btn" direction="bottom_right"><a href="#">⊿</a></div></div>	
+	</div>
+	
+	
+</body>
+</html>

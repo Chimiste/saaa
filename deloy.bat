@@ -1,2 +1,2 @@
-adt -certificate -cn dorami 2048-RSA dist/dorami.pfx 77261
-adt -package -storetype pkcs12 -keystore dist/dorami.pfx -storepass 77261  dist/dorami.air application.xml  dorami.html lib/* styles/* icons/* images/*
+rem adt -certificate -cn saaa 2048-RSA dist/saaa.pfx 77261
+adt -package -storetype pkcs12 -keystore dist/saaa.pfx -storepass 77261  dist/saaa.air application.xml  saaa.html lib/* styles/* icons/* images/*

@@ -49,8 +49,6 @@ body{cursor:defaulte; margin:0; padding:0;width:100%; height:100%;}
 #layout #menu{margin:20px 0 0px 2px;padding:0px;}
 #layout #menu li{float:left;list-style-type:none;margin-right:1px;}
 #layout #menu li a {-moz-border-radius: 1px;-webkit-border-radius: 1px; text-decoration:none;text-align:center;padding:2px 6px 2px 6px;overflow:hidden;}
-#layout #menu li a {background:#ececec;color:#222;}
-#layout #menu li a:hover {background:#fff;}
 #layout #menu li a .selected{background:red;}
 
 #layout[win="notifybox"] {-moz-border-radius: 5px;-webkit-border-radius: 4px;padding:6px;opacity:0.9;}
@@ -97,3 +95,15 @@ body{cursor:defaulte; margin:0; padding:0;width:100%; height:100%;}
 #layout.colorful-theme #header .toolbar li a {color: #222;}
 #layout.colorful-theme #header .toolbar li a:hover{background-color: #f0f7fe;}
 #layout.colorful-theme #btn-tooltip{ color:#444; }
+
+
+/** 彩色主题 **/
+#layout.blue-theme {background-color: #0e4f6f;border: 4px solid #0e4f6f;}
+#layout.blue-theme #footer {color:#b5e5fc;}
+#layout.blue-theme #content {color:#0e4f6f;background-color: #b5e5fc;border: 1px solid #fff;}	
+#layout.blue-theme #header .logo {color:#b5e5fc; }
+#layout.blue-theme #header .toolbar li a {color: #b5e5fc;}
+#layout.blue-theme #header .toolbar li a:hover{background-color: #f0f7fe;}
+#layout.blue-theme #btn-tooltip{ color:#b5e5fc; }
+#layout.blue-theme #menu li a {background:#669cb6;color:#222;}
+#layout.blue-theme #menu li a:hover {background:#b5e5fc;}

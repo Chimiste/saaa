@@ -48,34 +48,32 @@ THE SOFTWARE.
 		$(document).ready(function() {
 			saaa.init_main_win();			
 			$("#menu-item-notifybox").click(function(){
-				var notify_win = new saaa_notifier(saaa.main_win, new saaa_notify_message("测试", "内容", 20),100, 200, 10);
-				notify_win.show();
+				var notify_win = new saaa_notifier(saaa.main_win, new saaa_notify_message("测试", "内容", 20),100, 200, 1);
+				saaa_notify_manager.notify(notify_win);
 			});			
 
 		});
 		
 	</script>
 </head>
-<style>
-
-
-</style>
 <body> 
 	<div id="layout" class="default-theme">				
 		<div id="header" class="element movable">		 
 			<div class="logo">标题栏</div>
 			<ul class="toolbar">
-				<li class="change-theme-btn" theme="default"><a href="#" style="color:#7abaf2" title="默认主题" >■</a></li>
-				<li class="change-theme-btn" theme="red"><a href="#" style="color:#c33a12" title="红色主题" >■</a></li>
-				<li class="change-theme-btn" theme="grey"><a href="#" style="color:#cfcfcf" title="灰色主题" >■</a></li>
-				<li class="change-theme-btn" theme="colorful"><a href="#" style="color:#e8c258" title="多彩主题" >■</a></li>
-				<li id="disable-always-top-btn"><a href="#" rel="disable-always-top" title="取消窗口总是在最前面">¤</a></li>
-				<li id="always-top-btn"><a href="#" rel="always-top" title="窗口总是在最前面">●</a></li>
-				<li id="tray-btn"><a href="#" rel="tray" title="最小化到托盘">⊥</a></li>
-				<li id="min-btn"><a href="#" rel="min" title="最小化">-</a></li>
-				<li id="max-btn"><a href="#" ref="max" title="最大化">○</a></li>
-				<li id="restore-btn"><a href="#" ref="restore" title="还原">◎</a></li>
-				<li id="close-btn"><a href="#" rel="close" title="关闭">x</a></li>
+				<li class="change-theme-btn" theme="default"><a href="#" style="color:#0d2d60" title="default theme" ><span class="block default"></span></a></li>
+				<li class="change-theme-btn" theme="dark"><a href="#" style="color:#56535d" title="dark theme" ><span class="block dark"> </span></a></li>				
+				<li class="change-theme-btn" theme="red"><a href="#" style="color:#e10b09" title="red theme" ><span class="red block"> </span></a></li>
+				<li class="change-theme-btn" theme="pink"><a href="#" style="color:#ffcbea" title="pink theme" ><span class="pink block"> </span></a></li>				
+				<li class="change-theme-btn" theme="grey"><a href="#" style="color:#ccc" title="grey theme" ><span class="grey block"> </span></a></li>
+				<li class="change-theme-btn" theme="blue"><a href="#" style="color:#0e4f6f" title="blue theme" ><span class="blue block">b</span></a></li>				
+				<li id="disable-always-top-btn"><a href="#" rel="disable-always-top" title="cancel always on top">Ø</a></li>
+				<li id="always-top-btn"><a href="#" rel="always-top" title="always on top">Ô</a></li>
+				<li id="tray-btn"><a href="#" rel="tray" title="minimize">⊥</a></li>
+				<li id="min-btn"><a href="#" rel="min" title="minimize">-</a></li>
+				<li id="max-btn"><a href="#" ref="max" title="maximize">O</a></li>
+				<li id="restore-btn"><a href="#" ref="restore" title="restore">¤</a></li>
+				<li id="close-btn"><a href="#" rel="close" title="close">x</a></li>
 			</ul>
 			<div id="btn-tooltip"></div>
 			<ul id="menu">

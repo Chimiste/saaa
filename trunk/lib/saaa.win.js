@@ -219,6 +219,7 @@ air_win.prototype.init = function() {
 };
 air_win.prototype.show = function(show_func)
 {
+	this.win_handle.visible = true;
 	if (show_func == null)
 	{
 		this.layout.fadeIn();

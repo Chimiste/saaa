@@ -42,6 +42,8 @@ var saaa =
 		win.init();		
 		win.show();
 		
+		saaa.notify_win =  new saaa_notifier(saaa.main_win,150, 200, 1);
+		
 	},
 	
 	versionCheckURL: "http://saaa.googlecode.com/files/versioning.xml",
@@ -69,22 +71,5 @@ var saaa =
 		}
 		air.trace('checking for newer version...')
 		updater.check();
-	},
-	
-	init_notify_win: function(parent_win)
-	{
-
-		saaa.notify_win = new air_win(parent_win, "notify", $("#layout"));
-		win = saaa.notify_win;
-		win.buttons.close = $("#close-btn");
-		win.init();	
-		win.show(function(layout){
-// layout.show("drop", { direction: "down" }, 1000);
-// layout.show("slide", { direction: "down" }, 1000);
-//layout.myslide( {'container': $("body"), queue:false, direction: 'top', 'easing': "linear", 'duration': '200'});//,  'callback': function(){ $(this).effect("bounce", {  times: 3,direction: 'right' }, 300 ) } });						
-layout.slideDown(function(){$(this).fadeIn('slow');});
-
-		});		
-		
-	},	
+	}
 }

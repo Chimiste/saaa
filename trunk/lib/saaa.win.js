@@ -401,7 +401,7 @@ air_win.prototype.on_close = function(){
 	this.win_handle.dispatchEvent(closing);
 	this._call_event_listeners(this.event_listeners.close, function(fn){fn()});				
 	if(!closing.isDefaultPrevented()){
-		window.close();
+		this.win_handle.close();
 		this.debug("closed");
 	}									
 	return false;

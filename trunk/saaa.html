@@ -37,7 +37,7 @@ THE SOFTWARE.
 	<script type="text/javascript" src="lib/jquery.dimensions.pack.js" charset="utf-8"></script>
 	<script type="text/javascript" src="lib/jquery.blockUI.js" charset="utf-8"></script>	
 	<script type="text/javascript" src="lib/jquery.mytips.js" charset="utf-8"></script>
-	<script type="text/javascript" src="lib/jquery.myslide.js" charset="utf-8"></script>
+	<script type="text/javascript" src="lib/jquery.inner_slide-0.2.js" charset="utf-8"></script>
 	<script type="text/javascript" src="lib/saaa.util.js" charset="utf-8"></script>
 	<script type="text/javascript" src="lib/saaa.win.js" charset="utf-8"></script>	
 	<script type="text/javascript" src="lib/saaa.updater.js" charset="utf-8"></script>	
@@ -45,11 +45,13 @@ THE SOFTWARE.
 	<script type="text/javascript" src="lib/saaa.js" charset="utf-8"></script>	
 
 	<script>
+		var messages = 0;
 		$(document).ready(function() {
 			saaa.init_main_win();			
 			$("#menu-item-notifybox").click(function(){
-				var notify_win = new saaa_notifier(saaa.main_win, new saaa_notify_message("测试", "内容", 20),100, 200, 1);
-				saaa_notify_manager.notify(notify_win);
+				
+				saaa.notify_win.notify(null, "hello " + messages);
+				messages++;
 			});			
 
 		});

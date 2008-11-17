@@ -22,52 +22,53 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 **/
-
+var ATTR_INNER_SLIDDING = "INNER_SLIDDING";
 ;(function($) { 
-
-	$.fn.inner_slide = function(options) {
-		  var defaults = {
-			container: null,
-			params: {},
-			direction: "right", //right left top bottom
+		
+	$.fn.inner_slide = function(container, direction, options, callback) {
+				  var defaults = {
 			duration: "normal", //"slow", "normal", or "fast"
-			easing: "linear", //The name of the easing effect that you want to use (plugin required). There are two built-in values, "linear" and "swing".			
-			callback: null
+			easing: "linear" //The name of the easing effect that you want to use (plugin required). There are two built-in values, "linear" and "swing".			
 		  };
+ 
 		var opts = $.extend({}, defaults, options);
 		return this.each(function() {
 				$this = $(this);
+				var slidding = ($(this).attr(ATTR_INNER_SLIDDING) != undefined && $(this).attr(ATTR_INNER_SLIDDING));
+				if (slidding == "false")slidding = false;
+				if(slidding){return false;}
+				
 				var o = $.meta ? $.extend({}, opts, $this.data()) : opts;			
 				$(this).hide();
-				
 				//$(this).hide("explode", { pieces: 25 }, 1000);
-
 				$(this).css("top", "0px");
 				$(this).css("left", "0px");	
-
-				switch(o.direction)
+				container = $(container);	
+				var params = {};
+				switch(direction)
 				{
 					case "right":
-						$(this).css("right", 0 - o.container.width() + "px");
-						o.params.left = "+=" + o.container.width();
+						$(this).css("left", 0 - container.width() + "px");
+						params.left = "+=" + container.width();
 						break;			
 					case "left":
-						$(this).css("left",  o.container.width() + "px");
-						o.params.left = "-=" + o.container.width();
+						$(this).css("left",  container.width() + "px");
+						params.left = "-=" + container.width();
 						break;
 					case "bottom":
-						$(this).css("top",  0 - o.container.height() + "px");
-						o.params.top = "+=" + o.container.height();
+						$(this).css("top",  0 - container.height() + "px");
+						params.top = "+=" + container.height();
 						break;	
 					default:
 					case "top":
-						$(this).css("top", o.container.height() + "px");
-						o.params.top = "-=" + o.container.height() ;
+						$(this).css("top", container.height() + "px");
+						params.top = "-=" + container.height() ;
 						break;
 				}
-				$(this).show();
-				
-				$(this).animate(o.params, o.duration, o.easing, function(){if (o.callback)o.callback.call($(this)); });
+				$(this).show();	
+				$(this).attr(ATTR_INNER_SLIDDING, true);
+				var self = $(this);
+				$(this).animate(params, o.duration, o.easing, function(){self.attr(ATTR_INNER_SLIDDING, false);if (callback)callback.call($(this)); });
 		});
 	};
 })(jQuery);

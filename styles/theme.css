@@ -52,10 +52,16 @@ body{cursor:defaulte; margin:0; padding:0;width:100%; height:100%;}
 #layout #menu li a .selected{background:red;}
 
 #layout[win="notifybox"] {-moz-border-radius: 5px;-webkit-border-radius: 4px;padding:6px;opacity:0.9;}
-#layout[win="notifybox"] #content {-moz-border-radius: 0px;-webkit-border-radius: 0px;padding: 0px;top:12px;bottom:0px;overflow:auto;}
+#layout[win="notifybox"] #content {-moz-border-radius: 0px;-webkit-border-radius: 0px;top:12px;bottom:16px;overflow:hidden;}
+#layout[win="notifybox"] #message-box {position:absolute;display:none;width:100%;margin: 6px;}
 #layout[win="notifybox"] #header  {height:12px;top:0px;overflow:hidden;}
 #layout[win="notifybox"] #header .toolbar{position:absolute; right:0px;top:-4px; margin:1px 0 0 0;padding:0px;}
 #layout[win="notifybox"] #header .toolbar li a { font-size:12px;-webkit-border-radius: 0px; float:left;text-decoration:none;width:12px;height:12px;text-align:center;overflow:hidden;}
+#layout[win="notifybox"] #footer {height:18px;bottom:0px;}
+#layout[win="notifybox"] #footer .footbar{position:absolute; right:0px;top:0px; margin:4px 0 0 0;padding:0px;z-index:999;}
+#layout[win="notifybox"] #footer .footbar li{float:left;list-style-type:none;margin-right:4px;}
+#layout[win="notifybox"] #footer .footbar li a{ font-size:12px;-moz-border-radius: 7px;-webkit-border-radius: 2px; float:left;text-decoration:none;width:14px;height:14px;text-align:center;padding-bottom:2px;overflow:hidden;}
+ 
 
 /** 默认的蓝色主题 **/
 #layout.default-theme {background-color: #7abaf2;border: 4px solid #7abaf2;}
@@ -65,6 +71,7 @@ body{cursor:defaulte; margin:0; padding:0;width:100%; height:100%;}
 #layout.default-theme #header .toolbar li a {color: #00305a;}
 #layout.default-theme #header .toolbar li a:hover{background-color: #f0f7fe;}
 #layout.default-theme #btn-tooltip{ color:#00448d; }
+#layout[win="notifybox"].default-theme  #footer a{background:#fff;}
 
 /** 红色主题 **/
 #layout.red-theme {background-color: #c33a12;border: 4px solid #c33a12;-moz-border-radius: 1px;-webkit-border-radius: 1px;}

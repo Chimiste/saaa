@@ -47,11 +47,16 @@ THE SOFTWARE.
 	<script>
 		var messages = 0;
 		$(document).ready(function() {
-			saaa.init_main_win();			
-			$("#menu-item-notifybox").click(function(){
-				
-				saaa.notify_win.notify(null, "hello " + messages);
-				messages++;
+			saaa.init_main_win();
+			
+				$("#menu-item-notifybox").click(function(){
+					saaa.notify_win.ready(function(){
+					for(var i = 0; i < 10; i++)
+					{
+						saaa.notify_win.notify(null, "hello " + messages);
+						messages++;
+					}
+				});	
 			});			
 
 		});

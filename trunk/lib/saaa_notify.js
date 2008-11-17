@@ -7,6 +7,7 @@ var saaa_notify =
 	notify: function(message)
 	{
 		this.message_list.push(message);
+		saaa_notify.main_win.win_handle.visible = true;
 		if (!saaa_notify.showed)
 			saaa_notify.show_message();
 		else
@@ -30,6 +31,7 @@ var saaa_notify =
 	{
 		saaa_notify.main_win = new air_win(parent_win, "notify", $("#layout"));
 		win = saaa_notify.main_win;
+		win.win_handle.visible = false;
 		win.buttons.close = $("#close-btn");
 		win.init();
 		

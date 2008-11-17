@@ -32,7 +32,10 @@ var saaa_util = {
 	}
   }  
 };
-
+function urlencode(text)
+{
+  return encodeURIComponent(text);
+}
 
 function array_list()
 {

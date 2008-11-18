@@ -6,44 +6,36 @@
     <property name="ADT.JAR" value="${SDK_HOME}/lib/adt.jar"/> 
  
     <!-- Project properties --> 
-    <property name="APP_NAME" value="saaa"/>  
-    <property name="KEYSTORE_PASSWORD" value="77261"/>
-    
-    <property name="APP_ROOT_FILE" value="index.html"/> 
-    <property name="APP_DESCRIPTOR" value="application.xml"/> 
-    <property name="release"  location="dist"/>
-    <property name="STORETYPE" value="pkcs12"/> 
-    <property name="KEYSTORE" value="${APP_NAME}.pfx"/> 
-    <property name="AIR_NAME" value="${release}/${APP_NAME}.air"/>
-    
-    
-    <property name="html"  location="html/*"/>
-    <property name="lib"  location="lib/*"/>
-    <property name="styles"  location="styles/*.css"/>
-    <property name="icons"  location="icons/*.png"/>
-    <property name="images"  location="images/*"/>        
+    <property name="app.name" value="saaa"/>  
+    <property name="store.password" value="77261"/>     
+	<property name="src.dir" value="src"/>
+    <property name="dist.dir"  location="dist"/>
+    <property name="app.desc" value="${src.dir}/application.xml"/>
+    <property name="store.type" value="pkcs12"/> 
+    <property name="store.keyfiel" value="${app.name}.pfx"/> 
+    <property name="app.filename" value="${dist.dir}/${app.name}.air"/>     
     
     <target name="init" depends="clean"> 
-        <mkdir dir="${release}"/> 
+        <mkdir dir="${dist.dir}"/> 
     </target> 
  
     <target name="test"> 
         <exec executable="${ADL}"> 
-             <arg value="${APP_DESCRIPTOR}"/> 
+             <arg value="${app.desc}"/> 
         </exec>  
     </target> 
  <!--
 adt -certificate -cn saaa 2048-RSA dist/saaa.pfx 77261
 adt -package -storetype pkcs12 -keystore dist/saaa.pfx -storepass 77261  dist/saaa.air application.xml  saaa.html lib/* styles/* icons/* images/*
 -->
-    <target name="gen_key">
+    <target name="generate_key">
         <java jar="${ADT.JAR}" fork="true" failonerror="true"> 
              <arg value="-certificate"/>
              <arg value="-cn"/>
-             <arg value="${APP_NAME}"/>
+             <arg value="${app.name}"/>
              <arg value="2048-RSA"/>
-             <arg value="${KEYSTORE}"/>
-             <arg value="${KEYSTORE_PASSWORD}"/>
+             <arg value="${store.keyfile}"/>
+             <arg value="${store.password}"/>
         </java>                       
     </target>
     <target name="dist" depends="init">
@@ -51,23 +43,19 @@ adt -package -storetype pkcs12 -keystore dist/saaa.pfx -storepass 77261  dist/sa
         <java jar="${ADT.JAR}" fork="true" failonerror="true"> 
             <arg value="-package"/> 
             <arg value="-storetype"/> 
-            <arg value="${STORETYPE}"/> 
+            <arg value="${store.type}"/> 
             <arg value="-keystore"/> 
-            <arg value="${KEYSTORE}"/>
+            <arg value="${store.keyfile}"/>
             <arg value="-storepass"/>
-            <arg value="${KEYSTORE_PASSWORD}"/>            
-            <arg value="${AIR_NAME}"/> 
-            <arg value="${APP_DESCRIPTOR}"/> 
-            <arg value="${APP_ROOT_FILE}"/> 
+            <arg value="${store.password}"/>            
+            <arg value="${app.filename}"/> 
+            <arg value="${app.desc}"/> 
             <arg value="${html}"/>
-            <arg value="${lib}"/>
-            <arg value="${styles}"/>
-            <arg value="${icons}"/>
-            <arg value="${images}"/>  
+            <arg value="${src}/*"/>  
         </java> 
     </target> 
  
     <target name="clean" description="clean up"> 
-        <delete dir="${release}"/> 
+        <delete dir="${dist.dir}"/> 
     </target> 
 </project>

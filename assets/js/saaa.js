@@ -10,12 +10,12 @@ var saaa =
 		win.stateless = false;
 		win.buttons.close = $("#close-btn");
 		win.buttons.maximize = $("#max-btn");			
-		win.buttons.minimize = $("#min-btn");;
-		win.buttons.restore = $("#restore-btn");;
-		win.buttons.always_on_top = $("#always-top-btn");;
-		win.buttons.disable_always_on_top = $("#disable-always-top-btn");;
+		win.buttons.minimize = $("#min-btn");
+		win.buttons.restore = $("#restore-btn");
+		win.buttons.always_on_top = $("#always-top-btn");
+		win.buttons.disable_always_on_top = $("#disable-always-top-btn");
 		win.buttons.resize = $("#resize-btn");;
-		win.buttons.change_theme = $(".change-theme-btn");;
+		win.buttons.change_theme = $(".change-theme-btn");
 		win.buttons.move = $(".movable");
 
 		

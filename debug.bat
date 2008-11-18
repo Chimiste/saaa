@@ -1,1 +1,0 @@
-adl application.xml

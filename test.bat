@@ -1,2 +1,1 @@
-adl src/application.xml
-rem ant test
+ant test

@@ -9,19 +9,40 @@
     <property name="app.name" value="saaa"/>  
     <property name="store.password" value="77261"/>     
 	<property name="src.dir" value="src"/>
+	<property name="js.dir" value="js"/>
+	<property name="css.dir" value="styles"/>	
     <property name="dist.dir"  location="dist"/>
+    <property name="build.dir"  location="build"/>
     <property name="app.desc" value="application.xml"/>
     <property name="store.type" value="pkcs12"/> 
     <property name="store.keyfile" value="${app.name}.pfx"/> 
     <property name="app.filename" value="${dist.dir}/${app.name}.air"/>     
-    
+
+	<property name="antlib.dir" value="bin/ant"/>     
+
+	<property name="yui-compressor.jar" 	location="${antlib.dir}/yuicompressor-2.3.5.jar" />
+	<property name="yui-compressor-ant-task.jar" 	location="${antlib.dir}/yui-compressor-ant-task-0.3.jar" />
+	<path id="task.classpath">
+	  <pathelement location="${yui-compressor.jar}" />
+	  <pathelement location="${yui-compressor-ant-task.jar}" />
+	</path>
+	<taskdef name="yui-compressor"    classname="net.noha.tools.ant.yuicompressor.tasks.YuiCompressorTask">  
+	  <classpath refid="task.classpath"/>
+	</taskdef>
+
+	<concat destfile="${js.file}" force="no">
+	  <fileset dir="${src.dir}" includes="**/src/js/*.js" />
+	</concat>
+
     <target name="init" depends="clean"> 
         <mkdir dir="${dist.dir}"/> 
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.dir}/${src.dir}"/> 
     </target> 
  
     <target name="test"> 
         <exec executable="${ADL}"> 
-             <arg value="${app.desc}"/> 
+             <arg value="${src.dir}/${app.desc}"/> 
         </exec>  
     </target> 
  <!--
@@ -38,14 +59,26 @@ adt -package -storetype pkcs12 -keystore dist/saaa.pfx -storepass 77261  dist/sa
              <arg value="${store.password}"/>
         </java>                       
     </target>
+	
+	
     <target name="dist" depends="init">
-
-        <java jar="${ADT.JAR}" fork="true" failonerror="true"> 
+		<copydir src="${src.dir}"        dest="${build.dir}/${src.dir}" />
+		<copy file="${app.desc}" tofile="${build.dir}/${app.desc}"/>
+		<delete>
+			<fileset dir="${build.dir}/${src.dir}/${js.dir}" includes="**/*.js"/>
+			<fileset dir="${build.dir}/${src.dir}/${css.dir}" includes="**/*.css"/>			
+		  </delete>		
+		<yui-compressor warn="false" munge="true" jsSuffix =".js"	preserveallsemicolons="false"	fromdir="${src.dir}/${js.dir}"		todir="${build.dir}/${src.dir}/${js.dir}">	</yui-compressor>
+		<yui-compressor	warn="false"	munge="true"	cssSuffix =".css"		preserveallsemicolons="false"		fromdir="${src.dir}/${css.dir}"	todir="${build.dir}/${src.dir}/${css.dir}"></yui-compressor>
+		<delete>
+			<fileset dir="${build.dir}/${src.dir}/${js.dir}" includes="**/AIRIntrospector.js"/>
+		</delete>		
+        <java dir="${build.dir}" jar="${ADT.JAR}" fork="true" failonerror="true"> 
             <arg value="-package"/> 
             <arg value="-storetype"/> 
             <arg value="${store.type}"/> 
             <arg value="-keystore"/> 
-            <arg value="${store.keyfile}"/>
+            <arg value="../${store.keyfile}"/>
             <arg value="-storepass"/>
             <arg value="${store.password}"/>            
             <arg value="${app.filename}"/> 
@@ -56,5 +89,6 @@ adt -package -storetype pkcs12 -keystore dist/saaa.pfx -storepass 77261  dist/sa
  
     <target name="clean" description="clean up"> 
         <delete dir="${dist.dir}"/> 
+        <delete dir="${build.dir}"/> 
     </target> 
 </project>

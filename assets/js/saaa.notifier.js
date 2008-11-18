@@ -51,7 +51,7 @@ saaa_notifier.prototype.ready = function(callback) {
 
 		});
 
-		var req = new air.URLRequest("html/notifybox.html"); 
+		var req = new air.URLRequest("notifybox.html"); 
 		this.html_loader.load(req); 
 
 };

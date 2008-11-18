@@ -10,9 +10,9 @@
     <property name="store.password" value="77261"/>     
 	<property name="src.dir" value="src"/>
     <property name="dist.dir"  location="dist"/>
-    <property name="app.desc" value="${src.dir}/application.xml"/>
+    <property name="app.desc" value="application.xml"/>
     <property name="store.type" value="pkcs12"/> 
-    <property name="store.keyfiel" value="${app.name}.pfx"/> 
+    <property name="store.keyfile" value="${app.name}.pfx"/> 
     <property name="app.filename" value="${dist.dir}/${app.name}.air"/>     
     
     <target name="init" depends="clean"> 
@@ -50,8 +50,7 @@ adt -package -storetype pkcs12 -keystore dist/saaa.pfx -storepass 77261  dist/sa
             <arg value="${store.password}"/>            
             <arg value="${app.filename}"/> 
             <arg value="${app.desc}"/> 
-            <arg value="${html}"/>
-            <arg value="${src}/*"/>  
+            <arg value="${src.dir}/*"/>  
         </java> 
     </target> 
  

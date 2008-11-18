@@ -1,1 +1,1 @@
-ant gen_key
+ant generate_key

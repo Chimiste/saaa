@@ -45,7 +45,7 @@ saaa_notifier.prototype.ready = function(callback) {
 		var self = this;
 		this.html_loader.addEventListener( air.Event.COMPLETE, function(event){
 			self.html_loader.removeEventListener( air.Event.COMPLETE, arguments.callee );				
-			self.html_loader.window.init(self.parent_win);
+			self.html_loader.window.init(self.parent_win, self);
 			self.html_loader.window.add_event_listener("close", function(){self.html_loader = null;});
 			callback(self.html_loader);
 

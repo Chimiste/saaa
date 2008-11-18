@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+
+The MIT License
+
+Copyright (c) 2008 Pickere Yee(pickerel@gmail.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
+<head>
+	<title>StartKit for Adobe Air Application</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<link href="styles/theme.css" rel="stylesheet" type="text/css" />	
+	<script type="text/javascript" src="js/AIRAliases.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/jquery-1.2.6.pack .js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/jquery.mytips.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/jquery.inner_slide-0.2.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/saaa.util.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/saaa.win.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="js/saaa.updater.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="js/saaa.notifier.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/saaa.js" charset="utf-8"></script>
+	<script>
+		var messages = 0;
+		$(document).ready(function() {
+			saaa.init_main_win();
+			
+				$("#menu-item-notifybox").click(function(){
+					saaa.notify_win.ready(function(){
+					for(var i = 0; i < 10; i++)
+					{
+						saaa.notify_win.notify(null, "hello " + messages);
+						messages++;
+					}
+				});	
+			});			
+
+		});
+		
+	</script>
+</head>
+<body> 
+	<div id="layout" class="default-theme">				
+		<div id="header" class="element movable">		 
+			<div class="logo">标题栏</div>
+			<ul class="toolbar">
+				<li class="change-theme-btn" theme="default"><a href="#" style="color:#0d2d60" title="default theme"><span></span></a></li>				
+				<li class="change-theme-btn" theme="red"><a href="#" style="color:#e10b09" title="red theme" ><span></span></a></li>
+				<li class="change-theme-btn" theme="colorful"><a href="#" style="color:#ffcbea" title="colorful theme" ><span></span></a></li>				
+				<li class="change-theme-btn" theme="grey"><a href="#" style="color:#ccc" title="grey theme" ><span></span></a></li>
+				<li class="change-theme-btn" theme="blue"><a href="#" style="color:#0e4f6f" title="blue theme" ><span></span></a></li>				
+				<li id="disable-always-top-btn"><a href="#" rel="disable-always-top" title="cancel always on top">Ø</a></li>
+				<li id="always-top-btn"><a href="#" rel="always-top" title="always on top">Ô</a></li>
+				<li id="tray-btn"><a href="#" rel="tray" title="minimize">⊥</a></li>
+				<li id="min-btn"><a href="#" rel="min" title="minimize">-</a></li>
+				<li id="max-btn"><a href="#" ref="max" title="maximize">O</a></li>
+				<li id="restore-btn"><a href="#" ref="restore" title="restore">¤</a></li>
+				<li id="close-btn"><a href="#" rel="close" title="close">x</a></li>
+			</ul>
+			<div id="btn-tooltip"></div>
+			<ul id="menu">
+				<li><a id="menu-item-notifybox" href="#" class="selected">notifybox</a></li>				
+				<li><a id="menu-item-baidu" href="#" onclick="MyUI.load_sandbox($('#content'),'http://www.google.com');" class="selected">sandbox</a></li>
+			</ul>
+		</div>
+		<div id="content" class="element"  style="overflow:hidden;">
+
+		</div>
+		<div id="footer"  class="element movable" >状态<div id="resize-btn" direction="bottom_right"><a href="#">⊿</a></div></div>
+	</div>
+</body>
+</html>

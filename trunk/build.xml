@@ -42,7 +42,7 @@
  
     <target name="test"> 
         <exec executable="${ADL}"> 
-             <arg value="${src.dir}/${app.desc}"/> 
+             <arg value="${app.desc}"/> 
         </exec>  
     </target> 
  <!--

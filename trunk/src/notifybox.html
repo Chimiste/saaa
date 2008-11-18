@@ -32,6 +32,7 @@ THE SOFTWARE.
 	<script type="text/javascript" src="js/AIRAliases.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/jquery-1.2.6.pack .js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/jquery.inner_slide-0.2.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/jquery.timers.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/saaa.util.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/saaa.win.js" charset="utf-8"></script>	
 	<script type="text/javascript" src="js/saaa.notifier.js" charset="utf-8"></script>
@@ -39,12 +40,15 @@ THE SOFTWARE.
 	<script>
 	function add_message(message)
 	{
+		hidding = false;
+		stop_hide_timer();
+		start_hide_timer();
 		saaa_notify.notify(message);
 	}
-	function init(parent_win){
-		saaa_notify.init_main_win(parent_win);
+	function init(parent_win, notifier){
+		saaa_notify.init_main_win(parent_win, notifier);
 		air.trace("notify window ready...");
-		
+		start_hide_timer();
 	};
 
 	function add_event_listener(event, listener)
@@ -52,6 +56,24 @@ THE SOFTWARE.
 		saaa_notify.main_win.add_event_listener(event, listener);
 	}
 
+	function stop_hide_timer()
+	{
+		$(document).stopTime("hide");
+	}
+	var hidding = false;
+	function start_hide_timer()
+	{
+   	    $(document).oneTime(saaa_notify.notifier.keeptime, "hide", function() {
+			hidding = true;
+			$("#layout").slideUp("slow", function(){
+				if(hidding == false){
+					$("#layout").slideDown();
+					return;
+				}
+				saaa_notify.main_win.on_close();
+			});
+		});
+	}
 	</script>
 </head>
 <style>

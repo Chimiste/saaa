@@ -1,2 +1,1 @@
-cd ..
-ant test
+adl application.xml

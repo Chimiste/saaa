@@ -27,15 +27,18 @@ var saaa_notify =
 		$("#message-box").html(saaa_notify.message_list[saaa_notify.currrent_message_index].message);
 		$("#message-box").inner_slide("#content", 'left', {duration: 'fast'}, function(){saaa_notify.show_message_button();});				
 	},
-	init_main_win: function(parent_win)
+	init_main_win: function(parent_win, notifier)
 	{
 		saaa_notify.main_win = new air_win(parent_win, "notify", $("#layout"));
+		saaa_notify.notifier = notifier;
+		saaa_notify.parent_win = parent_win;
+
 		win = saaa_notify.main_win;
 		win.win_handle.visible = false;
 		win.buttons.close = $("#close-btn");
 		win.init();
 		
-		
+		//win.add_event_listener("close",  function(){});
 		win.show(function(layout){
 			layout.slideDown(function(){$(this).fadeIn('slow');});
 			$("#prev-msg-btn").click(function(){

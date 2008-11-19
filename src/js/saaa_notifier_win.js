@@ -1,13 +1,12 @@
 var saaa_notifier_win = 
 {
 	main_win: null,
-	message_list: [],
 	currrent_message_index: 0,
 	showed: false,
-	notify: function(message)
+	notifier: null,
+	notify: function()
 	{
-		this.message_list.push(message);
-		saaa_notifier_win.main_win.win_handle.visible = true;
+		this.main_win.win_handle.visible = true;
 		if (!saaa_notifier_win.showed)
 			saaa_notifier_win.show_message();
 		else
@@ -16,7 +15,7 @@ var saaa_notifier_win =
 	},
 	update_message_info: function()
 	{
-		$("#message_info").html((saaa_notifier_win.currrent_message_index + 1) + "/" + saaa_notifier_win.message_list.length);
+		$("#message_info").html((saaa_notifier_win.currrent_message_index + 1) + "/" + this.notifier.message_list.length);
 	},
 	show_message: function()
 	{
@@ -24,11 +23,12 @@ var saaa_notifier_win =
 		saaa_notifier_win.update_message_info();
 		saaa_notifier_win.hide_message_button();		
 		$("#message-box").hide();
-		$("#message-box").html(saaa_notifier_win.message_list[saaa_notifier_win.currrent_message_index].message);
+		$("#message-box").html(this.notifier.message_list[saaa_notifier_win.currrent_message_index].message);
 		$("#message-box").inner_slide("#content", 'left', {duration: 'fast'}, function(){saaa_notifier_win.show_message_button();});				
 	},
 	init_main_win: function(parent_win, notifier)
 	{
+		this.notifier = notifier;
 		saaa_notifier_win.main_win = new air_win(parent_win, "notify", $("#layout"));
 		saaa_notifier_win.notifier = notifier;
 		saaa_notifier_win.parent_win = parent_win;
@@ -37,6 +37,13 @@ var saaa_notifier_win =
 		win.win_handle.visible = false;
 		win.buttons.close = $("#close-btn");
 		win.init();
+		var self = this;
+		win.add_event_listener("close",  function(){
+				air.trace("close notifybox");
+				self.notifier.close();
+			}
+		);
+
 		
 		//win.add_event_listener("close",  function(){});
 		win.show(function(layout){
@@ -48,10 +55,10 @@ var saaa_notifier_win =
 				}
 			});
 			$("#next-msg-btn").click(function(){
-				if (saaa_notifier_win.currrent_message_index < saaa_notifier_win.message_list.length - 1)
+				if (self.currrent_message_index < self.notifier.message_list.length - 1)
 				{
-					saaa_notifier_win.currrent_message_index++;
-					saaa_notifier_win.show_message();				
+					self.currrent_message_index++;
+					self.show_message();				
 				}			
 			});
 		});		

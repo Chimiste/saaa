@@ -38,12 +38,12 @@ THE SOFTWARE.
 	<script type="text/javascript" src="js/saaa.notifier.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/saaa_notifier_win.js" charset="utf-8"></script>	
 	<script>
-	function add_message(message)
+	function notify()
 	{
 		hidding = false;
 		stop_hide_timer();
 		start_hide_timer();
-		saaa_notifier_win.notify(message);
+		saaa_notifier_win.notify();
 	}
 	function init(parent_win, notifier){
 		saaa_notifier_win.init_main_win(parent_win, notifier);
@@ -63,6 +63,9 @@ THE SOFTWARE.
 	var hidding = false;
 	function start_hide_timer()
 	{
+		$(document).click(function(){
+			
+			});
    	    $(document).oneTime(saaa_notifier_win.notifier.keeptime, "hide", function() {
 			hidding = true;
 			$("#layout").slideUp("slow", function(){

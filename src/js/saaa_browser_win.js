@@ -42,14 +42,30 @@ var saaa =
 		win.init();		
 		win.show();
 		
-		saaa.notify_win =  new saaa_notifier(saaa.main_win,150, 200, 1, 2000);
+		saaa.notify_win =  new saaa_notifier(saaa.main_win,150, 200, 1, 10000);
 		
 	},
 	
 	start: function()
 	{
-		$("#update").hide();
+		$(".update").hide();
+
 		$("#start").inner_slide("#content", 'left', {duration: 'normal'}, null);
+
+
+	},
+	get_base_httpclient: function(url, completed, error)
+	{
+		return new httpclient(url, {
+			headers:[				 
+					 ["User-Agent",	"Mozilla/5.0 AppleWebKit/523+ (KHTML, like Gecko) MyApp/1.1"],
+					 ["Accept-Encoding",	"text/html"]
+
+					 ],
+			completed: completed,
+			before_send: null,
+			error: error
+		});
 	},
 	version_check_url: "http://dorame.zduo.net/lastest/versioning.xml",
 	filename: "saaa.air", // nn.air

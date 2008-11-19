@@ -36,21 +36,25 @@ THE SOFTWARE.
 	<script type="text/javascript" src="js/saaa.win.js" charset="utf-8"></script>	
 	<script type="text/javascript" src="js/saaa.updater.js" charset="utf-8"></script>	
 	<script type="text/javascript" src="js/saaa.notifier.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/saaa.browser.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/saaa_win.js" charset="utf-8"></script>
 	<script>
 		var messages = 0;
 		$(document).ready(function() {
 			saaa.init_main_win();
 			saaa.update();
-				$("#menu-item-notifybox").click(function(){
-					saaa.notify_win.ready(function(){
-					for(var i = 0; i < 10; i++)
-					{
-						saaa.notify_win.notify(null, "hello " + messages);
-						messages++;
-					}
-				});	
-			});			
+			$("#menu-item-notifybox").click(function(){
+				for(var i = 0; i < 10; i++)
+				{
+					saaa.notify_win.notify(null, "hello " + messages);
+					messages++;
+				}					
+			});
+			
+			var browser =  new saaa_browser(saaa.main_win,150, 200);
+			browser.ready(function(){
+				//alert("ready");
+				});
 
 		});
 		
@@ -79,7 +83,8 @@ THE SOFTWARE.
 			</ul>
 			<div id="btn-tooltip"></div>
 			<ul id="menu">
-				<li><a id="menu-item-notifybox" href="#" class="selected">notifybox</a></li>				
+				<li><a id="menu-item-notifybox" href="#" class="selected">notifybox</a></li>
+				<li><a id="menu-item-browser" href="#" class="selected">flickr</a></li>								
 			</ul>
 		</div>
 		<div id="content" class="element"  style="overflow:hidden;">

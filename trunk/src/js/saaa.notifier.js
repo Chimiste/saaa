@@ -8,18 +8,30 @@ var saaa_notifier = function(parent,  height, width, margin, keeptime){
 	this.close_handle = null;
 	this.init_handle = null;
 	this.keeptime = keeptime;
+	this.opened = false;
+	this.opening = false;
 };
 
 
 saaa_notifier.prototype.notify = function(title, message){
-	//this.load_win(function(html_loader){
-		this.html_loader.window.add_message({title: title, message: message});
-		//});
-	
-	};
-	
-saaa_notifier.prototype.ready = function(callback) {
-	
+		this.message_list.push({title: title, message: message});			
+		if (!this.opened && !this.opening)
+		{
+			this.open(function(html_loader){html_loader.window.notify();});
+		}else if(this.opened)
+		{
+			this.html_loader.window.notify();
+		}
+		//air.trace("notifybox opened:" + this.opened + " opening" + this.opening);
+};
+saaa_notifier.prototype.close = function()
+{
+	this.opened = false;
+	this.message_list.length = 0;
+	this.opening = false;
+};
+saaa_notifier.prototype.open = function(callback) {
+		this.opening = true;
 		if (this.html_loader != undefined && this.html_loader != null) {callback(this.html_loader);return;}		
 		var visible_bounds = air.Screen.mainScreen.visibleBounds;
 		var bounds = new air.Rectangle(
@@ -47,11 +59,11 @@ saaa_notifier.prototype.ready = function(callback) {
 			self.html_loader.removeEventListener( air.Event.COMPLETE, arguments.callee );				
 			self.html_loader.window.init(self.parent_win, self);
 			self.html_loader.window.add_event_listener("close", function(){self.html_loader = null;});
-			callback(self.html_loader);
-
+			self.opened = true;
+			callback(self.html_loader);			
 		});
 
 		var req = new air.URLRequest("notifybox.html"); 
 		this.html_loader.load(req); 
-
+		
 };

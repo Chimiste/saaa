@@ -36,42 +36,47 @@ THE SOFTWARE.
 	<script type="text/javascript" src="js/saaa.util.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/saaa.win.js" charset="utf-8"></script>	
 	<script type="text/javascript" src="js/saaa.browser.js" charset="utf-8"></script>
-	<script type="text/javascript" src="js/saaa_browser.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="js/saaa_browser_win.js" charset="utf-8"></script>	
 	<script>
-	function init(parent_win, notifier){
-		saaa_browser.init_main_win(parent_win, notifier);
+	function init(parent_win, browser){
+		saaa_browser_win.init_main_win(parent_win, browser);
 		air.trace("browser window ready...");
 	};
 
 	function add_event_listener(event, listener)
 	{
-		saaa_browser.main_win.add_event_listener(event, listener);
+		saaa_browser_win.main_win.add_event_listener(event, listener);
 	}
 	</script>
 </head>
-<style>
-
-
-</style>
 <body> 
-	<div id="layout" class="default-theme" win="notifybox">				
-		<div id="header" class="element movable">
+	<div id="layout" class="default-theme">				
+		<div id="header" class="element movable">		 
+			<div class="logo">saaa browser</div>
 			<ul class="toolbar">
-				<li id="close-btn"><a href="#" rel="close" title="关闭">x</a></li>
-			</ul>			
-		</div>
-		<div id="content" class="element">
-			<div id="message-box"></div>
-		</div>
-		<div id="footer" class="element">
-			<ul class="footbar">
-				<div id="message-controller">
-				<li><a href="#" id="prev-msg-btn" title="上一条">&lt;</a></li>
-				<li id="message_info"></li>
-				<li><a href="#" id="next-msg-btn" title="下一条">&gt;</a></li>
-				</div>
+				<li class="change-theme-btn" theme="default"><a href="#" style="color:#0d2d60" title="default theme"><span></span></a></li>				
+				<li class="change-theme-btn" theme="red"><a href="#" style="color:#e10b09" title="red theme" ><span></span></a></li>
+				<li class="change-theme-btn" theme="colorful"><a href="#" style="color:#ffcbea" title="colorful theme" ><span></span></a></li>				
+				<li class="change-theme-btn" theme="grey"><a href="#" style="color:#ccc" title="grey theme" ><span></span></a></li>
+				<li class="change-theme-btn" theme="blue"><a href="#" style="color:#0e4f6f" title="blue theme" ><span></span></a></li>				
+				<li id="disable-always-top-btn"><a href="#" rel="disable-always-top" title="cancel always on top">Ø</a></li>
+				<li id="always-top-btn"><a href="#" rel="always-top" title="always on top">Ô</a></li>
+				<li id="tray-btn"><a href="#" rel="tray" title="minimize">⊥</a></li>
+				<li id="min-btn"><a href="#" rel="min" title="minimize">-</a></li>
+				<li id="max-btn"><a href="#" ref="max" title="maximize">O</a></li>
+				<li id="restore-btn"><a href="#" ref="restore" title="restore">¤</a></li>
+				<li id="close-btn"><a href="#" rel="close" title="close">x</a></li>
 			</ul>
-		</div>			
-	</div>	
+			<div id="btn-tooltip"></div>
+			<ul id="menu">
+				<li><input type="text" name="address" size="10" style="position:absolute;top:30px;left:10px;height:18px;right:40px;"></a></li>
+				<li><a id="menu-item-browser" href="#" class="selected" style="position:absolute;top:30px;right:10px;">Go</a></li>								
+			</ul>
+		</div>
+		<div id="content" class="element"  style="overflow:hidden;">			
+			<div id="start">application has been started.</div>
+		</div>
+		<div id="footer"  class="element movable" >状态<div id="resize-btn" direction="bottom_right"><a href="#">⊿</a></div></div>
+	</div>
 </body>
 </html>

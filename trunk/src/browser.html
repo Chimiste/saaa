@@ -26,7 +26,7 @@ THE SOFTWARE.
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
 <head>
-	<title>通知</title>
+	<title>saaa browser</title>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<link href="styles/theme.css" rel="stylesheet" type="text/css" />	
 	<script type="text/javascript" src="js/AIRAliases.js" charset="utf-8"></script>
@@ -35,44 +35,17 @@ THE SOFTWARE.
 	<script type="text/javascript" src="js/jquery.timers.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/saaa.util.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/saaa.win.js" charset="utf-8"></script>	
-	<script type="text/javascript" src="js/saaa.notifier.js" charset="utf-8"></script>
-	<script type="text/javascript" src="js/saaa_notifier_win.js" charset="utf-8"></script>	
+	<script type="text/javascript" src="js/saaa.browser.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/saaa_browser.js" charset="utf-8"></script>	
 	<script>
-	function add_message(message)
-	{
-		hidding = false;
-		stop_hide_timer();
-		start_hide_timer();
-		saaa_notifier_win.notify(message);
-	}
 	function init(parent_win, notifier){
-		saaa_notifier_win.init_main_win(parent_win, notifier);
-		air.trace("notify window ready...");
-		start_hide_timer();
+		saaa_browser.init_main_win(parent_win, notifier);
+		air.trace("browser window ready...");
 	};
 
 	function add_event_listener(event, listener)
 	{
-		saaa_notifier_win.main_win.add_event_listener(event, listener);
-	}
-
-	function stop_hide_timer()
-	{
-		$(document).stopTime("hide");
-	}
-	var hidding = false;
-	function start_hide_timer()
-	{
-   	    $(document).oneTime(saaa_notifier_win.notifier.keeptime, "hide", function() {
-			hidding = true;
-			$("#layout").slideUp("slow", function(){
-				if(hidding == false){
-					$("#layout").slideDown();
-					return;
-				}
-				saaa_notifier_win.main_win.on_close();
-			});
-		});
+		saaa_browser.main_win.add_event_listener(event, listener);
 	}
 	</script>
 </head>

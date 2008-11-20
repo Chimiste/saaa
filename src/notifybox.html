@@ -49,6 +49,10 @@ THE SOFTWARE.
 		saaa_notifier_win.init_main_win(parent_win, notifier);
 		air.trace("notify window ready...");
 		start_hide_timer();
+		$(document).click(function(){
+				stop_hide_timer();
+				start_hide_timer();
+			});		
 	};
 
 	function add_event_listener(event, listener)
@@ -63,9 +67,6 @@ THE SOFTWARE.
 	var hidding = false;
 	function start_hide_timer()
 	{
-		$(document).click(function(){
-			
-			});
    	    $(document).oneTime(saaa_notifier_win.notifier.keeptime, "hide", function() {
 			hidding = true;
 			$("#layout").slideUp("slow", function(){

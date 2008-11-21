@@ -170,45 +170,14 @@ array_list.prototype.Last_index_of = function( object, start_index )
             
    return ret;
 };
-  
-  // this.observers.RemoveAt(this.observers.IndexOf( observer, 0 ));
- 
-
-/**
-* @author cybergib15
-*/
-
-/**
-* Crear una ventana nueva
-* @param {String} html Ruta del archivo html o pagina.
-* @param {Int} width Ancho de la ventana.
-* @param {Int} height Alto de la ventana.
-* @param {Boolean} transparent
-* @param {Boolean} resizable
-* @param {Boolean} maximizable
-* @param {Int} left
-* @param {Int} top
-* @return {Object} Retorna el objeto HTMLloader.
-*/
-function nuevaVentana(html,width,height,transparent,resizable,maximizable,left,top){
-	var options = new air.NativeWindowInitOptions();
-	options.systemChrome = air.NativeWindowSystemChrome.STANDARD;
-	if(transparent==true) options.systemChrome=air.NativeWindowSystemChrome.NONE;
-	options.transparent = transparent;
-	options.resizable=resizable;
-	options.maximizable=maximizable;
+var __includes__ = new array_list();  
+function include(js)
+{
+	if (__includes__.index_of(js, 0) == -1)	__includes__.insert(js);
+	var head = document.getElementsByTagName('head')[0];	
+	script = document.createElement('script');
+	script.src = js;
+	script.type = 'text/javascript';
 	
-	
-	if(left==undefined)left=0;
-	if(top==undefined)top=0;
-	
-	var windowBounds = new air.Rectangle(left,top);
-	windowBounds.width=width;
-	windowBounds.height=height;
-	
-	newHTMLLoader = air.HTMLLoader.createRootWindow(true, options, true, windowBounds);
-	newHTMLLoader.load(new air.URLRequest(html));
-	
-	return newHTMLLoader;
-} 
-	
+	head.appendChild(script)
+}	

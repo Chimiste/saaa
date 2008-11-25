@@ -13,7 +13,9 @@
 	<property name="css.dir" value="styles"/>	
     <property name="dist.dir"  location="dist"/>
     <property name="build.dir"  location="build"/>
+    <property name="test.dir"  location="test"/>
     <property name="app.desc" value="application.xml"/>
+    <property name="app.test.desc" value="application.xml"/>
     <property name="store.type" value="pkcs12"/> 
     <property name="store.keyfile" value="${app.name}.pfx"/> 
     <property name="app.filename" value="${dist.dir}/${app.name}.air"/>     
@@ -39,8 +41,14 @@
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.dir}/${src.dir}"/> 
     </target> 
- 
-    <target name="test"> 
+
+     <target name="run"> 
+        <exec executable="${ADL}"> 
+             <arg value="${app.test.desc}"/> 
+        </exec>  
+    </target> 
+
+    <target name="run"> 
         <exec executable="${ADL}"> 
              <arg value="${app.desc}"/> 
         </exec>  

@@ -170,14 +170,3 @@ array_list.prototype.Last_index_of = function( object, start_index )
             
    return ret;
 };
-var __includes__ = new array_list();  
-function include(js)
-{
-	if (__includes__.index_of(js, 0) == -1)	__includes__.insert(js);
-	var head = document.getElementsByTagName('head')[0];	
-	script = document.createElement('script');
-	script.src = js;
-	script.type = 'text/javascript';
-	
-	head.appendChild(script)
-}	

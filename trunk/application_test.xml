@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/1.0">
+    <id>unittest</id>
+	<version>0.1</version>
+    <filename>unittest</filename>
+	<installFolder>unittest</installFolder>
+	<name>Unit Test For Adobe Air Application</name>
+    <description>Unit Test For Adobe Air Application</description>
+    <copyright>Copyright (c) 2008 Pickerel Yee</copyright>
+    <initialWindow>
+     	<content>test/test.html</content>
+     	<visible>true</visible>
+	 	<systemChrome>standard</systemChrome>
+		<transparent>false</transparent>
+		<width>240</width>
+		<height>400</height>	
+    </initialWindow>
+	<icon>
+	    <image16x16>src/icons/icon16.png</image16x16>
+		<image128x128>src/icons/icon128.png</image128x128>
+	</icon>
+</application>

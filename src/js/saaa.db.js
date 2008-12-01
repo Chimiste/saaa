@@ -71,18 +71,31 @@ saaa_db.prototype.destroy = function(){
 saaa_db.prototype.begin = function(){this.conn.begin();};
 saaa_db.prototype.commit = function(){	this.conn.commit();};
 // execute synchronize
-saaa_db.prototype.execute = function(sql){
-    var stat = this.create_statement(sql);
-    stat.sqlConnection = this.conn;
-    stat.execute();
-    return stat.getResult();    
+saaa_db.prototype.execute = function(sql, callback){
+    if (callback != null)
+    {
+        this.execute_async(sql, callback);
+    }else{
+        var stat = this.create_statement(sql);
+        stat.sqlConnection = this.conn;
+        stat.execute();
+        return stat.getResult();
+    }
 };
-saaa_db.prototype.execute_async = function(sql, result_callback, error_callback)
+saaa_db.prototype.execute_async = function(sql, callback)
 {
     var stat = this.create_statement(sql);
     stat.sqlConnection = this.conn;
-    if (request_callback != null)   stat.addEventListener(air.SQLEvent.RESULT, result_callback);
-    if (error_handler != null) stat.addEventListener(air.SQLErrorEvent.ERROR, error_callback);    
+    if (callback.result != null)
+    {
+        var func = function(event){callback.result(stat.getResult());  stat.removeEventListener(air.SQLEvent.RESULT, func);};
+        stat.addEventListener(air.SQLEvent.RESULT, func);
+    }
+    if (callback.error != null)
+    {
+        var func = function(event){callback.error(event.error);  stat.removeEventListener(air.SQLEvent.RESULT, func);};        
+        stat.addEventListener(air.SQLErrorEvent.ERROR, callback.error);
+    }
     stat.execute();
 };
 saaa_db.prototype.create_statement = function(sql)
@@ -92,15 +105,69 @@ saaa_db.prototype.create_statement = function(sql)
         stat.text = sql;
     else{
         stat.text = sql.sql;
-        if (sql.arams == undefined || sql.params == null )return stat;
+        if (sql.params == undefined || sql.params == null )return stat;
         for (var p in sql.params)
         {
             var key = ":" + p;
-            var value = sql.params[key];
+            var value = sql.params[p];
             stat.parameters[key] = value;
         }
     }
     return stat;
+};
+saaa_db.prototype.select = function(sql, callback){
+    if (callback == null)
+    {
+        var result = this.execute(sql);
+        return result.data;
+    }
+    else
+    {
+        var self = this;
+        this.execute_async(sql, {result: function(result){callback.result(result.data);},
+                                 error: callback.error
+            });
+    }    
+};
+saaa_db.prototype.insert = function(sql, callback){
+    if (callback == null)
+    {
+        var result = this.execute(sql);
+        return result.lastInsertRowID;
+    }
+    else
+    {
+        var self = this;
+        this.execute_async(sql, {result: function(result){callback.result(result.lastInsertRowID);},
+                                 error: callback.error
+            });
+    }    
+};
+saaa_db.prototype.count = function(sql, callback){
+    return (this.get_first(sql, callback));
+}
+saaa_db.prototype.get_first = function(sql, callback){
+    if (callback == null)
+    {
+        return this._get_first(this.execute(sql));
+    }else{
+        var self = this;
+        this.execute_async(sql, {result: function(result){callback.result(self._get_first(result));},
+                                 error: callback.error
+            });
+    }
+    
+};
+saaa_db.prototype._get_first = function(result){
+    var data = result.data;
+    
+    if (data.length == 0) return null;
+    
+    for (var key in data[0])
+    {
+        return data[0][key];
+    }
+    return null;
 };
 saaa_db.prototype.query = function(sql)
 {

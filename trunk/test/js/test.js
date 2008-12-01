@@ -5,41 +5,42 @@ Array.prototype.add = function(obj){this[this.length] = obj;}
 
 function xhttp(url, callback)
 {
+    var request = null;
     if (typeof XMLHttpRequest != 'undefined') {
-        httpRequest = new XMLHttpRequest();
+        request = new XMLHttpRequest();
     }
     else if (typeof ActiveXObject != 'undefined') {
-        httpRequest = new ActiveXObject('Microsoft.XMLHTTP');
+        request = new ActiveXObject('Microsoft.XMLHTTP');
     }
-    httpRequest.open('GET', url, true);
-    httpRequest.onreadystatechange = function () {
-        if (httpRequest.readyState == 4) {
-            callback(httpRequest.responseText);
+    request.open('GET', url, true);
+    request.onreadystatechange = function () {
+        if (request.readyState == 4) {
+            callback(request.responseText);
         }
     };
-    httpRequest.send(null);			
+    request.send(null);			
 }
+
+ 
 function add_scripts(jss, callback)
 {
-    var func = function(idx)
-    {
+    var func = function( jss, idx, callback){
         if (idx == jss.length) {callback();return};
-        add_script(jss[idx], function(){idx++;func(idx);});
+        add_script(jss[idx], function(){func(jss, ++idx, callback);});
     }
-    func(0);
+    func(jss, 0, callback);
 }
 function add_script(js, callback)
 {
-    if (__includes__.indexOf(js) > -1)return;
-    __includes__.add(js);
+    if (__includes__.indexOf(js) > -1){callback();return;}
+    __includes__.add(js);    
     xhttp(js, function(js_content){
         var head = document.getElementsByTagName('head')[0];	
         script = document.createElement('script');
-        air.trace("add script:" + js);
         head.appendChild(script);
         script.innerHTML = js_content;
-        callback();}
-    );
+        callback();
+    });
 }
 
 function include_js(js)

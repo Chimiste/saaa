@@ -78,12 +78,13 @@ var testcase_ui = function(test){
 		div.innerHTML = "<h3'>[" + test.name +"]  -- Test Results</h3>" +
 						"<ul id='" + test.name +"_results'></ul>";		
 	};
-	this.on_assert_success = function(assert_name, method_name){
+	this.on_assert_success = function(assert_name, method_name, message){
+        if (message == undefined || message == null)message = assert_name ;        
 		var assert_results = this.get_or_create_method_div(method_name);
 		var result = document.createElement('li');
 		result.setAttribute("style", "color:green;");
 		assert_results.appendChild(result);
-		result.innerHTML = (assert_name + " success</font>");
+		result.innerHTML = message + " success</font>";
 	};
 	this.on_assert_failed = function(assert_name, method_name, default_message, message){
 		var assert_results = this.get_or_create_method_div(method_name);
@@ -97,7 +98,7 @@ var testcase_ui = function(test){
 		var result = document.createElement('li');
 		result.setAttribute("style", "color:red;");
 		assert_results.appendChild(result);
-		result.innerHTML = ("error<b>:" + e +"</font>");		
+		result.innerHTML = ("error<b>:" + e +"</font>");
 	};
 	this.on_completed = function(test){};	
 	this.get_message =  function(msg)
@@ -125,37 +126,37 @@ var testcase_ui = function(test){
 
 var testcase_assertion = function( test, method){this.test_method = method; this.test = test;};
 
-testcase_assertion.prototype.failed = function(name, bool, default_message, message){
+testcase_assertion.prototype.failed = function(name, default_message, message){
 	this.test.on_assert_failed(name, this.test_method, default_message, message);
 };
-testcase_assertion.prototype.success = function(name){
-	this.test.on_assert_success(name, this.test_method);
+testcase_assertion.prototype.success = function(name,  message){
+	this.test.on_assert_success(name, this.test_method,  message);
 };
 
 testcase_assertion.prototype.do_assert = function(name, bool, message, default_message)
 {
 	try
 	{
-		if (bool)this.success(name);
+		if (bool)this.success(name,  message);
 			
 		else
 		{
-			this.failed(name, this.test_method, default_message, message);
+			this.failed(name, default_message, message);
 		}		
 	}
 	catch(e)
 	{
-		this.failed(name, this.test_method, e, message);
+		this.failed(name, e, message);
 	}
 };
 testcase_assertion.prototype.assert = function(bool, msg)
 {
 	var default_msg = "expected:true, actual:"  + bool;
-	if(msg != null)
-	{
-		default_msg = msg;
-		msg = null;
-	}
+	//if(msg != null)
+	//{
+	//	default_msg = msg;
+	//	msg = null;
+	//}
 	this.do_assert("assert", bool,  msg, default_msg);
 };
 testcase_assertion.prototype.assert_equal = function(expect, actual, msg)
@@ -196,7 +197,6 @@ testcase_assertion.prototype.assert_not_match = function(value, pattern, msg)
 }; 
   
 
-// do not use the teardown in the asynchronize test.
 var testcase_context = function(global_context, test, method_name){
 	//attach assert methods to the test method.
 	var astn = new testcase_assertion();
@@ -275,7 +275,6 @@ testcase.prototype.run = function()
 	var run_async_tests = function()
 	{
 		var f = async_test_funcs[async_test_idx];			
-		
 		var ctx = new testcase_context(global_context, self, f.name);		
 		//add complete method for the async test.
 		ctx["complete"] = function(){
@@ -336,8 +335,8 @@ testcase.prototype._run_teardown = function(global_context){
 		}
 	};	
 };
-testcase.prototype.on_assert_success = function(assert_name, method_name){
-	this.ui.on_assert_success(assert_name, method_name);
+testcase.prototype.on_assert_success = function(assert_name, method_name, message){
+	this.ui.on_assert_success(assert_name, method_name, message);
 	};
 testcase.prototype.on_assert_failed = function(assert_name, method_name, default_message, message){
 	this.ui.on_assert_failed(assert_name, method_name, default_message, message);

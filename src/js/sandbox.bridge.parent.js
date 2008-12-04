@@ -14,7 +14,7 @@ sandbox_bridge.prototype.init = function()
 sandbox_bridge.prototype.init_child = function()
 {
     this.child = this.iframe.contentWindow.childSandboxBridge;
-    if(this.child.init != null)this.child.init();
+    if(this.child.sandbox_init != null)this.child.sandbox_init();
 }
 
 

@@ -5,7 +5,7 @@
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<link href="styles/theme.css" rel="stylesheet" type="text/css" />	
 	<script type="text/javascript" src="js/AIRAliases.js" charset="utf-8"></script>
-	<script type="text/javascript" src="js/jquery-1.2.6.pack .js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/jquery-1.2.6.pack.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/jquery.mytips.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/jquery.inner_slide-0.2.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/jquery.delay.js" charset="utf-8"></script>
@@ -31,13 +31,9 @@
 			$("#menu-item-sandbox").click(function(){
 				
 					saaa.load_sandbox($("#content"), 'sandbox', "http://localhost/src/sandbox.html", "http://localhost/",
-									  function(iframe, bridge){
-											bridge.attach({call1: function(){alert('call1');}});
-										},
-									  function(iframe, bridge){
-									  $(".logo").click(function(){bridge.child.call2()});
-									  
-									  } );
+									  function(iframe, bridge){bridge.attach({
+											on_theme_change: function(callback){saaa.main_win.event_listeners.theme_change.add(callback);}										
+										});}, null);
 				});
 			//var browser =  new saaa_browser(saaa.main_win,150, 200);
 			//	browser.ready(function(){});

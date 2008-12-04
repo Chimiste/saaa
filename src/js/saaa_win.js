@@ -42,7 +42,7 @@ var saaa =
 		win.init();		
 		win.show();
 		
-		saaa.notify_win =  new saaa_notifier(saaa.main_win,150, 200, 1, 10000, 0);
+		saaa.notify_win =  new saaa_notifier(saaa.main_win,150, 200, 1, 10000, 5000);
 		
 		
 	},

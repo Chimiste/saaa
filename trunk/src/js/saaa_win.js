@@ -39,7 +39,9 @@ var saaa =
 
 		win.add_event_listener("close",  function(){air.trace("exit, bye.");air.NativeApplication.nativeApplication.exit();});
 		$("#header a").mousedown(function(){return false;});
-		win.init();		
+		win.init();
+		
+		$("#menu li").hide();
 		win.show();
 		
 		saaa.notify_win =  new saaa_notifier(saaa.main_win,150, 200, 1, 10000, 5000);
@@ -50,10 +52,28 @@ var saaa =
 	start: function()
 	{
 		$(".update").hide();
+		$("#menu li").show();
 
 		$("#start").inner_slide("#content", 'left', {duration: 'normal'}, null);
 
 
+	},	
+	load_sandbox: function(parent, id, url, domain, ondominitialize, onloaded)
+	{
+		var html = 	'<iframe id="' + id + '" sandboxRoot="' + domain + '" documentRoot="app:/"></iframe>';
+		parent.html(html);	
+		var jid = $("#" + id);
+		jid.attr("src", url);
+		var sbridge = new sandbox_bridge(id);		
+   	    jid.attr("ondominitialize", function(){sbridge.init();ondominitialize(jid, sbridge);});
+		if (onloaded != null)
+		{
+			jid.one("load", function(){
+				if (!sbridge.inited)sbridge.init();
+				sbridge.init_child();
+				onloaded(jid, sbridge);	
+			});
+		}
 	},
 	get_base_httpclient: function(url, completed, error)
 	{
@@ -71,7 +91,7 @@ var saaa =
 	version_check_url: "http://dorame.zduo.net/lastest/versioning.xml",
 	filename: "saaa.air", // nn.air
 	//update
-	update: function()
+	update: function(completed_callback)
 	{
 		var updater = new saaa_updater(saaa.version_check_url, saaa.filename);
 		updater.error_handle = function(e, msg)

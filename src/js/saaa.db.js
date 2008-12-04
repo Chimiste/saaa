@@ -177,3 +177,8 @@ saaa_db.prototype.query = function(sql)
     stmt.execute(this.maxResults);
     return this.readResults(stmt.getResult());
 };
+
+var saaa_model = function(){};
+saaa_model.prototype.prepared = function(){};
+saaa_model.prototype.add = function(table, obj){};
+saaa_model.prototype.update = function(table, obj){};

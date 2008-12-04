@@ -40,6 +40,7 @@ var saaa_notifier_win =
 		var self = this;
 		win.add_event_listener("close",  function(){
 				air.trace("close notifybox");
+				self.notifier.delay();
 				self.notifier.close();
 			}
 		);

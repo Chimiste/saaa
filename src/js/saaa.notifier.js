@@ -1,4 +1,4 @@
-var saaa_notifier = function(parent,  height, width, margin, keeptime){
+var saaa_notifier = function(parent,  height, width, margin, keeptime, nextshowdelay){
 	this.height = height;
 	this.width = width;
 	this.margin = margin;
@@ -10,11 +10,33 @@ var saaa_notifier = function(parent,  height, width, margin, keeptime){
 	this.keeptime = keeptime;
 	this.opened = false;
 	this.opening = false;
+	
+	this.nextshowdelay = nextshowdelay;
+	if (this.nextshowdelay == null)this.nextshowdelay = 0;
+	
+	
+	
 };
 
+saaa_notifier.prototype.delay = function()
+{
+	if (this.nextshowdelay == 0)return;
+	if (!this.delaying)
+	{
+		this.delaying = true;
+		var self = this;
+		var openfunc = function(){
+			self.delaying = false;
+			if (self.message_list.length > 0)self.open(function(html_loader){html_loader.window.notify();});
+		}
+		$(this).delay(this.nextshowdelay, openfunc);		
+	}
+	
+};
 
 saaa_notifier.prototype.notify = function(title, message){
-		this.message_list.push({title: title, message: message});			
+		this.message_list.push({title: title, message: message});
+		if (this.delaying) return;
 		if (!this.opened && !this.opening)
 		{
 			this.open(function(html_loader){html_loader.window.notify();});

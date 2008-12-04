@@ -160,8 +160,9 @@ add_scripts(["../src/js/saaa.util.js", "../src/js/saaa.db.js"], function(){
 		{
 			var self = this;
 			prepare_db(this, function(db){
-				var rows = db.select({sql:'select * from test where name=:name',params:{name: 'pickerel'}});
-				self.assert_equal('pickerel', rows[0]['name'], 'name is pickerel');
+				var result = db.execute({sql:'update test set name=:newname where name=:name',params:{newname: 'pickerel11', name: 'pickerel'}});
+				
+				self.assert_equal(1, result.rowsAffected, 'update one row');
 			});			
 		},
         teardown: function()

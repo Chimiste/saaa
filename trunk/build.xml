@@ -1,6 +1,6 @@
 <project name="saaa" default="test" basedir=".">
     <!-- SDK properties --> 
-    <property name="SDK_HOME" value="E:/Program Files/adobe/Flex Builder 3/sdks/3.0.0"/> 
+    <property name="SDK_HOME" value="D:/dev/env/AdobeAIRSDK"/> 
     <property name="ADL" value="${SDK_HOME}/bin/adl.exe"/>
     <property name="ADT" value="${SDK_HOME}/bin/adt.bat"/> 
     <property name="ADT.JAR" value="${SDK_HOME}/lib/adt.jar"/> 
@@ -42,11 +42,7 @@
         <mkdir dir="${build.dir}/${src.dir}"/> 
     </target> 
 
-     <target name="run"> 
-        <exec executable="${ADL}"> 
-             <arg value="${app.test.desc}"/> 
-        </exec>  
-    </target> 
+ 
 
     <target name="run"> 
         <exec executable="${ADL}"> 

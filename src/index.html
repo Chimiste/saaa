@@ -1,28 +1,4 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--
-
-The MIT License
-
-Copyright (c) 2008 Pickere Yee(pickerel@gmail.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
--->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
 <head>
 	<title>StartKit for Adobe Air Application</title>
@@ -38,6 +14,7 @@ THE SOFTWARE.
 	<script type="text/javascript" src="js/saaa.updater.js" charset="utf-8"></script>	
 	<script type="text/javascript" src="js/saaa.notifier.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/saaa.browser.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/sandbox.bridge.parent.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/saaa_win.js" charset="utf-8"></script>
 	<script>
 		var messages = 0;
@@ -51,18 +28,23 @@ THE SOFTWARE.
 					messages++;
 				}					
 			});
-			
-			var browser =  new saaa_browser(saaa.main_win,150, 200);
-			browser.ready(function(){
-				//alert("ready");
+			$("#menu-item-sandbox").click(function(){
+				
+					saaa.load_sandbox($("#content"), 'sandbox', "http://localhost/src/sandbox.html", "http://localhost/",
+									  function(iframe, bridge){
+											bridge.attach({call1: function(){alert('call1');}});
+										},
+									  function(iframe, bridge){
+									  $(".logo").click(function(){bridge.child.call2()});
+									  
+									  } );
 				});
-
+			//var browser =  new saaa_browser(saaa.main_win,150, 200);
+			//	browser.ready(function(){});
 		});
 		
 	</script>
-	<style>
-	#content > div{width:100%;height:100%;display:none;position:absolute; margin:10px;}
-	</style>	
+	
 </head>
 <body> 
 	<div id="layout" class="default-theme">				
@@ -85,9 +67,10 @@ THE SOFTWARE.
 			<div id="btn-tooltip"></div>
 			<ul id="menu">
 				<li><a id="menu-item-notifybox" href="#" class="selected">notifybox</a></li>
-				<li><a id="menu-item-browser" href="#" class="selected">flickr</a></li>								
+				<li><a id="menu-item-sandbox" href="#" class="selected">sandbox</a></li>								
 			</ul>
 		</div>
+				   
 		<div id="content" class="element"  style="overflow:hidden;">
 			
 			<div id="start">application has been started.</div>

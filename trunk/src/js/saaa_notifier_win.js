@@ -32,8 +32,9 @@ var saaa_notifier_win =
 		saaa_notifier_win.main_win = new air_win(parent_win, "notify", $("#layout"));
 		saaa_notifier_win.notifier = notifier;
 		saaa_notifier_win.parent_win = parent_win;
-
+		
 		win = saaa_notifier_win.main_win;
+		win.stateless = true;
 		win.win_handle.visible = false;
 		win.buttons.close = $("#close-btn");
 		win.init();

@@ -11,10 +11,10 @@ sandbox_win.prototype = {
 };
 sandbox_win.prototype.debug = function(message)
 {
-	parent.trace(this.win_id + ":" + message);
+	this.parent.trace(message);
 };
    
-air_win.prototype.apply_theme = function(theme)
+sandbox_win.prototype.apply_theme = function(theme)
 {
 	if(!this.layout)return;
 	this.debug("apply theme " + theme);
@@ -23,9 +23,9 @@ air_win.prototype.apply_theme = function(theme)
 	
 };
 
-air_win.prototype.init = function() {	
+sandbox_win.prototype.init = function() {	
 	this.apply_theme(this.theme);
 	var self = this;
-	parent.add_win_event_listener("theme_change", function(theme){self.apply_theme(theme);});
+	this.parent.add_win_event_listener("theme_change", function(theme){self.apply_theme(theme);});
 	this.debug("sandbox initialized.")
 };

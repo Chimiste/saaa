@@ -11,10 +11,10 @@ sandbox_bridge.prototype.init = function()
     this.inited = true;
 }
 
-sandbox_bridge.prototype.init_child = function()
+sandbox_bridge.prototype.init_child = function(params)
 {
     this.child = this.iframe.contentWindow.childSandboxBridge;
-    if(this.child.sandbox_init != null)this.child.sandbox_init();
+    if(this.child.sandbox_init != null)this.child.sandbox_init(params);
 }
 
 
@@ -27,4 +27,3 @@ sandbox_bridge.prototype.attach = function(exposed){
     }
     if (i == 0) this.iframe.contentWindow.parentSandboxBridge = exposed;
 };
- 

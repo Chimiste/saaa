@@ -65,14 +65,17 @@ var saaa =
 		var jid = $("#" + id);
 		jid.attr("src", url);
 		var sbridge = new sandbox_bridge(id);		
-   	    jid.attr("ondominitialize", function(){sbridge.init();if(ondominitialize != null)ondominitialize(jid, sbridge);});
+   	    jid.attr("ondominitialize", function(){
+			sbridge.init();
+			sbridge.attach(parent_bridge);
+			if(ondominitialize != null)ondominitialize(jid, sbridge);
+		});
 
 		jid.one("load", function(){
-			if (!sbridge.inited)sbridge.init();
-			sbridge.init_child();
+			if (!sbridge.inited)sbridge.init();			
+			sbridge.init_child({saaa: saaa});
 			if(onloaded != null)onloaded(jid, sbridge);	
-		});
-		
+		});		
 	},
 	get_base_httpclient: function(url, completed, error)
 	{
@@ -130,5 +133,14 @@ var saaa =
 				updater.check();			
 		});
 
-	}
-}
+	}	
+};
+
+var parent_bridge = {
+	add_win_event_listener: function(event, callback){
+		saaa.main_win.add_event_listener(event, callback);
+	},
+	trace: function(msg){air.trace(msg)}
+};
+
+

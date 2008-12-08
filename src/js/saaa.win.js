@@ -88,7 +88,7 @@ air_win.prototype = {
 	application_version: null,
 	application_id: null,
 	_position: {x: null, y: null, height: null, width: null},//x,y,width,height	
-	always_on_to: false,
+	always_on_top: false,
 };
 air_win.prototype.debug = function(message)
 {

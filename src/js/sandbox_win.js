@@ -1,11 +1,21 @@
-function sandbox_init()
-{
-    //air.trace("sandbox inited.");
-    alert("inited");
-}
+//$(document).ready(function() {
+var sbwin = {
+    parent: null,
+    win: null,
+    init: function()
+    {
+        this.parent = sandbox_bridge.parent()
+        win = new sandbox_win( $("#layout"));
+        sandbox_bridge.attach(child_bridge);
+     }       
+};
 
-$(document).ready(function() {
-    var parent = sandbox_bridge.parent();
-    parent.on_theme_change(function(theme){alert(theme);});
-    
-});
+var child_bridge =
+{
+    // will call by parent when sandbox inited.
+    sandbox_init: function(params){
+        
+       // sbwin.win.theme  = params.saaa.main_win.theme;
+        //sbwin.win.init();
+    }
+}

@@ -29,12 +29,8 @@
 				}					
 			});
 			$("#menu-item-sandbox").click(function(){
-				
-					saaa.load_sandbox($("#content"), 'sandbox', "http://localhost/src/sandbox.html", "http://localhost/",
-									  function(iframe, bridge){bridge.attach({
-											on_theme_change: function(callback){saaa.main_win.event_listeners.theme_change.add(callback);}										
-										});}, null);
-				});
+				saaa.load_sandbox($("#content"), 'sandbox', "http://localhost/src/sandbox.html", "http://localhost/",  null, null);
+			});
 			//var browser =  new saaa_browser(saaa.main_win,150, 200);
 			//	browser.ready(function(){});
 		});

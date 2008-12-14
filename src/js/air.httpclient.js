@@ -12,7 +12,6 @@ var httpclient = function(url, options){
 	if(options == null)options = {};
 	saaa_util.inherits(options, defaults);
 	this.options = defaults;
-
 	this.url = url;
 };
 httpclient.prototype.send = function(redirect_times)
@@ -22,7 +21,6 @@ httpclient.prototype.send = function(redirect_times)
 		var loader = new air.URLLoader();	
 		//loader.dataFormat = this.options.format;
 		var request = new air.URLRequest(this.url);				
-		
 		if(this.options.completed)
 		{
 			loader.addEventListener(air.Event.COMPLETE, function(event){
@@ -74,4 +72,29 @@ httpclient.prototype.send = function(redirect_times)
 		if(this.options.error != null)this.options.error(e);
 		air.trace(e);
 	}	
+}
+
+
+function http_get(url, headers, callback)
+{
+	var hc = new httpclient(url, {
+		headers: headers,
+		completed: callback.completed,
+		before_send: callback.before_send,
+		error: callback.error,
+		http_status: callback.status
+	});
+	hc.send(10);
+}
+function http_post(url, headers, data, callback )
+{
+	var hc = new httpclient(url, {
+		headers: headers,
+		method: air.URLRequestMethod.POST,
+		completed: callback.completed,
+		before_send: callback.before_send,
+		error: callback.error,
+		http_status: callback.status
+	});
+	hc.send(10);
 }

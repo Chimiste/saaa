@@ -88,7 +88,7 @@ air_win.prototype = {
 	application_version: null,
 	application_id: null,
 	_position: {x: null, y: null, height: null, width: null},//x,y,width,height	
-	always_on_top: false,
+	always_on_to: false,
 };
 air_win.prototype.debug = function(message)
 {
@@ -399,7 +399,7 @@ air_win.prototype.on_close = function(){
 	this.debug("closing...");
 	var closing = new air.Event(air.Event.CLOSING, true, true);	
 	this.win_handle.dispatchEvent(closing);
-	this._call_event_listeners(this.event_listeners.close, function(fn){fn()});				
+	this._call_event_listeners(this.event_listeners.close, function(fn){fn(closing)});				
 	if(!closing.isDefaultPrevented()){
 		this.win_handle.close();
 		this.debug("closed");
@@ -566,3 +566,23 @@ air_win.prototype.add_child = function(child_win){
 			self.remove_event_listener("theme_change", change_theme_func);
 		});
 };
+air_win.prototype.load_sandbox = function(parent, id, url, domain, document_root, ondominitialize, onloaded, init_child_params)
+{
+	var html = 	'<iframe id="' + id + '" sandboxRoot="' + domain + '" documentRoot="' + document_root + '"></iframe>';
+	parent.html(html);	
+	var jid = $("#" + id);
+	jid.attr("src", url);
+	var sbridge = new sandbox_bridge(id);		
+	jid.attr("ondominitialize", function(){
+		sbridge.init();
+		sbridge.attach(parent_bridge);
+		if(ondominitialize != null)ondominitialize(jid, sbridge);
+	});
+	if (init_child_params == null) init_child_params = {};
+	init_child_params.parent_win = this;
+	jid.one("load", function(){
+		if (!sbridge.inited)sbridge.init();
+		sbridge.init_child(init_child_params);					
+		if(onloaded != null)onloaded(jid, sbridge);			
+	});
+}

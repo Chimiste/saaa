@@ -10,9 +10,9 @@ var sandbox_bridge =
             window.childSandboxBridge[k] = exposed[k];
             i++;
         }
-        if (i == 0) window.childSandboxBridge = exposed;
-     
+        if (i == 0) window.childSandboxBridge = exposed;     
     },
-    parent: function(){ return window.parentSandboxBridge;}
+    parent: function(){ return window.parentSandboxBridge;},    
+    debug: function(message)  {  	this.parent().trace(message);  } 
 }
 

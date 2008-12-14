@@ -19,8 +19,7 @@ sandbox_win.prototype.apply_theme = function(theme)
 	if(!this.layout)return;
 	this.debug("apply theme " + theme);
 	this.theme = theme;
-	this.layout.attr("class", theme + "-theme");
-	
+	this.layout.attr("class", theme + "-theme");	
 };
 
 sandbox_win.prototype.init = function() {	

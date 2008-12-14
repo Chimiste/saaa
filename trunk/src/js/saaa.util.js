@@ -170,3 +170,12 @@ array_list.prototype.Last_index_of = function( object, start_index )
             
    return ret;
 };
+
+escape_html = function (str) {                                       
+        return(                                                                 
+            str.replace(/&/g,'&amp;').                                         
+                replace(/>/g,'&gt;').                                           
+                replace(/</g,'&lt;').                                           
+                replace(/"/g,'&quot;')                                         
+        );                                                                     
+    };

@@ -2,6 +2,7 @@ var saaa =
 {
 	main_win: null,
 	notify_win: null,
+	main_sandbox: null,	
 	//initialize the main ui
 	init_main_win: function()
 	{
@@ -55,28 +56,16 @@ var saaa =
 		$("#menu li").show();
 
 		$("#start").inner_slide("#content", 'left', {duration: 'normal'}, null);
-
-
-	},	
-	load_sandbox: function(parent, id, url, domain, ondominitialize, onloaded)
-	{
-		var html = 	'<iframe id="' + id + '" sandboxRoot="' + domain + '" documentRoot="app:/"></iframe>';
-		parent.html(html);	
-		var jid = $("#" + id);
-		jid.attr("src", url);
-		var sbridge = new sandbox_bridge(id);		
-   	    jid.attr("ondominitialize", function(){
-			sbridge.init();
-			sbridge.attach(parent_bridge);
-			if(ondominitialize != null)ondominitialize(jid, sbridge);
-		});
-
-		jid.one("load", function(){
-			if (!sbridge.inited)sbridge.init();			
-			sbridge.init_child({saaa: saaa});
-			if(onloaded != null)onloaded(jid, sbridge);	
-		});		
 	},
+	processing: function(func)
+	{
+		this.spinner_show();
+		var self = this;
+		var complete = function(){self.spinner_hide();};		
+		func(complete);
+	},
+	spinner_hide: function(){$("#spinner").hide();},
+	spinner_show: function(){$("#spinner").show();},	
 	get_base_httpclient: function(url, completed, error)
 	{
 		return new httpclient(url, {

@@ -13,7 +13,7 @@ sandbox_bridge.prototype.init = function()
 
 sandbox_bridge.prototype.init_child = function(params)
 {
-    this.child = this.iframe.contentWindow.childSandboxBridge;
+    this.child = this.iframe.contentWindow.childSandboxBridge;    
     if(this.child.sandbox_init != null)this.child.sandbox_init(params);
 }
 

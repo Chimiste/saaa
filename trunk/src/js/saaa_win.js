@@ -46,8 +46,6 @@ var saaa =
 		win.show();
 		
 		saaa.notify_win =  new saaa_notifier(saaa.main_win,150, 200, 1, 10000, 5000);
-		
-		
 	},
 	
 	start: function()
@@ -87,39 +85,40 @@ var saaa =
 		var updater = new saaa_updater(saaa.version_check_url, saaa.filename);
 		updater.error_handle = function(e, msg)
 		{
+			saaa.spinner_hide();
 			$("#updating").hide();
 			$("#updating-error-msg").text(msg + ":" + e);
 			$("#updating-error").inner_slide("#content", 'left', {duration: 'normal'}, function(){
-						$("#update-link-error").click(function(){$("#updating-error").hide();saaa.start();return false;});
+				$("#update-link-error").click(function(){saaa.spinner_hide();$("#updating-error").hide();saaa.start();return false;});
 			});	
 		}
-		updater.update_ok_handle = function(){$("#status-icon").hide();$("#updating").hide();$("#update-completed").inner_slide("#content", 'left', {duration: 'normal'}, function(){$("#update-completed").hide();saaa.start();});};
+		updater.update_ok_handle = function(){$("#updating").hide();$("#update-completed").inner_slide("#content", 'left', {duration: 'normal'}, function(){$("#update-completed").hide();saaa.spinner_hide();saaa.start();});};
     	updater.update_complete_hanlde = function(){};
 		updater.update_process_handle = function(percent){ 	$("#update-percent").text(percent);	};
 		updater.need_update_or_not_handle = function(needUpdate)
-		{
-			$("#status-icon").hide();			
+		{			
 			$("#update-checking").hide();
 			if (needUpdate) {
 				$("#update-newer-version").text(updater.lastest_version_info.version);
 				$("#update-newer-releasenotes").text(updater.lastest_version_info.releasenotes);
 				$("#update-ornot").inner_slide("#content", 'left', {duration: 'normal'}, function(){
+						saaa.spinner_hide();
 						$("#update-link-confirm").click(function(){
-								$("#update-ornot").hide();$("#updating").inner_slide("#content", 'left', {duration: 'normal'}, function(){$("#status-icon").fadeIn();	updater.update();});								
+								saaa.spinner_show();$("#update-ornot").hide();$("#updating").inner_slide("#content", 'left', {duration: 'normal'}, function(){	saaa.spinner_show();updater.update();});								
 							}
 						);
-						$("#update-link-ignore").click(function(){$("#update-ornot").hide();saaa.start();return false;});						
+						$("#update-link-ignore").click(function(){$("#update-ornot").hide();saaa.spinner_hide();saaa.start();return false;});						
 				});							
 			}
 			else
 			{
-				$("#update-no-newer-version").inner_slide("#content", 'left', {duration: 'normal'}, function(){$("#update-no-newer-version").fadeOut("slow", function(){	saaa.start();});});	
+				$("#update-no-newer-version").inner_slide("#content", 'left', {duration: 'normal'}, function(){$("#update-no-newer-version").fadeOut("slow", function(){	saaa.spinner_hide();saaa.start();});});	
 				
 			}
 		}
-		$("#status-icon").fadeIn();		
+		saaa.spinner_show();	
 		$("#update-checking").inner_slide("#content", 'left', {duration: 'normal'}, function(){
-				updater.check();			
+				saaa.spinner_hide();updater.check();			
 		});
 
 	}	

@@ -352,11 +352,10 @@ air_win.prototype.attach_events = function()
 	var btns = this.buttons;
 	var self = this;	
     w.addEventListener(air.NativeWindowDisplayStateEvent.DISPLAY_STATE_CHANGE,  function(event){
-		if (self.is_maximize()) {
+		if (btns.maximize != null && self.is_maximize()) {
 			btns.restore.show();
 			btns.maximize.hide();
-		}
-		else {
+		}else if(btns.restore != null) {
 			btns.restore.hide();
 			btns.maximize.show();
 		}

@@ -32,15 +32,14 @@
 				}					
 			});
 			$("#menu-item-sandbox").click(function(){
-			saaa.processing(function(complete)
-		{
-			saaa.main_win.load_sandbox($("#content"), 'sandbox', "http://localhost/src/sandbox.html", "http://localhost/", 'app:/', function(jid, sbridge){saaa.main_sandbox = sbridge;},  function(jid, sbridge){				
-				$("#menu li").show();
-				complete();
-			});
-		});
-
-		 
+				saaa.processing(function(complete)
+				{
+					saaa.main_win.load_sandbox($("#content"), 'sandbox', "http://localhost/src/sandbox.html", "http://localhost/", 'app:/', function(jid, sbridge){saaa.main_sandbox = sbridge;},  function(jid, sbridge){				
+						$("#menu li").show();
+						complete();
+					});
+				});
+			});		 
 		});
 		
 	</script>
@@ -91,7 +90,11 @@
 			<div id="update-completed" class="update">update complete</div>
 			<!-- end:custom update message -->
 		</div>
-		<div id="footer"  class="element movable" >状态<div id="resize-btn" direction="bottom_right"><a href="#">⊿</a></div></div>
+		<div id="footer"  class="element movable" >
+			<div>
+			<span id="spinner"><img src="images/spinner.gif" border="0"/></span><div id="resize-btn" direction="bottom_right"><a href="#">⊿</a></div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
